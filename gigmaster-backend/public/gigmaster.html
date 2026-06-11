@@ -1,0 +1,3132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GigMaster — Fiverr Account Intelligence</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --bg4: #22222f;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0f0f5;
+    --text2: #9090a8;
+    --text3: #5a5a72;
+    --green: #00d084;
+    --green-dim: rgba(0,208,132,0.12);
+    --green-border: rgba(0,208,132,0.25);
+    --purple: #8b5cf6;
+    --purple-dim: rgba(139,92,246,0.12);
+    --amber: #f59e0b;
+    --amber-dim: rgba(245,158,11,0.12);
+    --red: #ef4444;
+    --red-dim: rgba(239,68,68,0.1);
+    --blue: #3b82f6;
+    --blue-dim: rgba(59,130,246,0.12);
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* Layout */
+  .shell { display: flex; height: 100vh; overflow: hidden; }
+
+  /* Sidebar */
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow-y: auto;
+  }
+
+  .logo {
+    padding: 20px 18px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo-mark {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+  .logo-mark span { color: var(--green); }
+  .logo-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+  .nav-section {
+    padding: 12px 10px 4px;
+  }
+  .nav-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--text3);
+    text-transform: uppercase;
+    padding: 0 8px;
+    margin-bottom: 4px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text2);
+    font-size: 13px;
+    font-weight: 400;
+    transition: all 0.15s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+  .nav-item:hover { background: var(--bg3); color: var(--text); }
+  .nav-item.active { background: var(--green-dim); color: var(--green); font-weight: 500; }
+  .nav-item svg { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.7; }
+  .nav-item.active svg { opacity: 1; }
+  .nav-badge {
+    margin-left: auto;
+    background: var(--bg4);
+    color: var(--text3);
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .nav-item.active .nav-badge { background: var(--green-dim); color: var(--green); }
+
+  .sidebar-footer {
+    margin-top: auto;
+    padding: 12px 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Main */
+  .main {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--bg);
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .topbar-title { font-size: 15px; font-weight: 600; }
+  .topbar-sub { font-size: 12px; color: var(--text3); margin-top: 1px; }
+  .topbar-actions { display: flex; gap: 8px; align-items: center; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .btn-primary { background: var(--green); color: #000; }
+  .btn-primary:hover { background: #00b872; }
+  .btn-ghost { background: none; border: 1px solid var(--border2); color: var(--text2); }
+  .btn-ghost:hover { background: var(--bg3); color: var(--text); }
+  .btn-danger { background: var(--red-dim); border: 1px solid rgba(239,68,68,0.2); color: var(--red); }
+
+  .content { padding: 24px 28px; }
+
+  /* Cards */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .card-title { font-size: 13px; font-weight: 600; }
+  .card-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+  /* Grid */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+  /* Stats */
+  .stat-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+  }
+  .stat-label { font-size: 11px; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; }
+  .stat-value { font-size: 26px; font-weight: 700; margin: 4px 0 2px; letter-spacing: -1px; }
+  .stat-delta { font-size: 11px; color: var(--text3); }
+  .stat-delta.up { color: var(--green); }
+  .stat-delta.warn { color: var(--amber); }
+
+  /* Account cards */
+  .account-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .account-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    position: relative;
+  }
+  .account-card:hover { border-color: var(--border2); }
+  .account-card.selected { border-color: var(--green); }
+  .account-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+  .account-avatar {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 15px;
+    flex-shrink: 0;
+  }
+  .account-name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .account-niche { font-size: 12px; color: var(--text3); }
+  .account-stats { display: flex; gap: 14px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .account-stat-item { text-align: center; }
+  .account-stat-val { font-size: 15px; font-weight: 600; }
+  .account-stat-lbl { font-size: 10px; color: var(--text3); margin-top: 1px; }
+  .health-bar { height: 3px; background: var(--bg4); border-radius: 2px; margin-top: 12px; overflow: hidden; }
+  .health-fill { height: 100%; border-radius: 2px; transition: width 0.5s; }
+
+  /* Badge */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .badge-green { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+  .badge-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,158,11,0.2); }
+  .badge-red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(239,68,68,0.15); }
+  .badge-purple { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(139,92,246,0.2); }
+  .badge-blue { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(59,130,246,0.2); }
+  .badge-gray { background: var(--bg4); color: var(--text2); border: 1px solid var(--border); }
+
+  /* Gig list */
+  .gig-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: opacity 0.1s;
+  }
+  .gig-row:last-child { border-bottom: none; }
+  .gig-row:hover { opacity: 0.85; }
+  .gig-thumb {
+    width: 52px; height: 30px; border-radius: 5px;
+    background: var(--bg4); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .gig-info { flex: 1; min-width: 0; }
+  .gig-title { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gig-meta { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .gig-stats { display: flex; gap: 16px; text-align: right; flex-shrink: 0; }
+  .gig-stat-val { font-size: 13px; font-weight: 600; }
+  .gig-stat-lbl { font-size: 10px; color: var(--text3); }
+
+  /* AI Chat */
+  .ai-pane {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 57px);
+  }
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .msg { display: flex; gap: 10px; max-width: 85%; }
+  .msg.user { align-self: flex-end; flex-direction: row-reverse; }
+  .msg-avatar {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; flex-shrink: 0;
+  }
+  .msg-avatar.ai { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+  .msg-avatar.user { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(139,92,246,0.2); }
+  .msg-bubble {
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .msg.ai .msg-bubble { background: var(--bg3); border: 1px solid var(--border); border-top-left-radius: 4px; }
+  .msg.user .msg-bubble { background: var(--purple-dim); border: 1px solid rgba(139,92,246,0.2); border-top-right-radius: 4px; color: var(--text); }
+  .msg-bubble p { margin-bottom: 8px; }
+  .msg-bubble p:last-child { margin-bottom: 0; }
+  .msg-bubble ul { padding-left: 16px; }
+  .msg-bubble li { margin-bottom: 4px; }
+  .msg-bubble strong { color: var(--green); font-weight: 600; }
+  .msg-bubble code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--bg4);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--amber);
+  }
+  .typing-indicator { display: flex; gap: 4px; padding: 10px 14px; }
+  .typing-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--text3); animation: typing 1.2s infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing { 0%,60%,100% { opacity:0.3; transform:scale(1); } 30% { opacity:1; transform:scale(1.2); } }
+
+  .chat-input-area {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .chat-input-row { display: flex; gap: 8px; align-items: flex-end; }
+  .chat-textarea {
+    flex: 1;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    padding: 10px 14px;
+    resize: none;
+    min-height: 40px;
+    max-height: 120px;
+    outline: none;
+    transition: border-color 0.15s;
+    line-height: 1.5;
+  }
+  .chat-textarea:focus { border-color: var(--green); }
+  .chat-textarea::placeholder { color: var(--text3); }
+  .chat-send {
+    width: 38px; height: 38px;
+    background: var(--green);
+    border: none; border-radius: 10px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s; flex-shrink: 0;
+  }
+  .chat-send:hover { background: #00b872; }
+  .chat-send:disabled { background: var(--bg4); cursor: not-allowed; }
+  .chat-send svg { width: 16px; height: 16px; }
+
+  .quick-prompts {
+    display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px;
+  }
+  .quick-prompt {
+    padding: 5px 10px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 11px;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .quick-prompt:hover { border-color: var(--green); color: var(--green); background: var(--green-dim); }
+
+  /* Research pane */
+  .phase-steps { display: flex; flex-direction: column; gap: 2px; margin-bottom: 20px; }
+  .phase-step {
+    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+    border-radius: 8px; border: 1px solid transparent; cursor: pointer; transition: all 0.15s;
+  }
+  .phase-step:hover { background: var(--bg3); }
+  .phase-step.active { background: var(--green-dim); border-color: var(--green-border); }
+  .phase-step.done { background: var(--bg3); }
+  .step-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--bg4); color: var(--text3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; flex-shrink: 0;
+  }
+  .phase-step.active .step-num { background: var(--green); color: #000; }
+  .phase-step.done .step-num { background: var(--green-dim); color: var(--green); }
+  .step-label { font-size: 13px; font-weight: 500; }
+  .step-sublabel { font-size: 11px; color: var(--text3); }
+
+  /* Intelligence feed */
+  .feed-item {
+    display: flex; gap: 12px; padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .feed-item:last-child { border-bottom: none; }
+  .feed-icon {
+    width: 34px; height: 34px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .feed-content { flex: 1; }
+  .feed-title { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+  .feed-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .feed-footer { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+  .feed-time { font-size: 11px; color: var(--text3); }
+  .feed-action {
+    font-size: 11px; color: var(--green); cursor: pointer;
+    border: none; background: none; font-family: inherit; font-weight: 500; padding: 0;
+  }
+
+  /* Form */
+  .form-group { margin-bottom: 16px; }
+  .form-label { font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 6px; display: block; }
+  .form-hint { font-size: 11px; color: var(--text3); margin-top: 4px; }
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    padding: 9px 12px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--green); }
+  .form-textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+  .form-select option { background: var(--bg3); }
+  .char-count { font-size: 11px; color: var(--text3); text-align: right; margin-top: 4px; }
+  .char-count.warn { color: var(--amber); }
+  .char-count.over { color: var(--red); }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 100;
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-lg);
+    width: 520px; max-width: 95vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 24px;
+  }
+  .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+  .modal-title { font-size: 16px; font-weight: 600; }
+  .modal-close { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 18px; padding: 2px; }
+
+  /* Tab */
+  .tabs { display: flex; gap: 2px; background: var(--bg3); border-radius: 10px; padding: 3px; margin-bottom: 20px; }
+  .tab {
+    flex: 1; text-align: center; padding: 7px 12px;
+    border-radius: 8px; font-size: 12px; font-weight: 500;
+    color: var(--text3); cursor: pointer; border: none;
+    background: none; font-family: inherit; transition: all 0.15s;
+  }
+  .tab.active { background: var(--bg2); color: var(--text); border: 1px solid var(--border); }
+
+  /* Alert */
+  .alert {
+    display: flex; gap: 10px; padding: 12px 14px;
+    border-radius: 8px; margin-bottom: 16px; font-size: 12px;
+  }
+  .alert-warn { background: var(--amber-dim); border: 1px solid rgba(245,158,11,0.2); color: #d97706; }
+  .alert-danger { background: var(--red-dim); border: 1px solid rgba(239,68,68,0.15); color: var(--red); }
+  .alert-info { background: var(--blue-dim); border: 1px solid rgba(59,130,246,0.2); color: var(--blue); }
+  .alert-success { background: var(--green-dim); border: 1px solid var(--green-border); color: var(--green); }
+  .alert-icon { font-size: 14px; flex-shrink: 0; }
+
+  /* Sections */
+  .section-gap { height: 24px; }
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+  .row { display: flex; align-items: center; justify-content: space-between; }
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--text3); }
+  .empty-state-icon { font-size: 36px; margin-bottom: 10px; }
+  .empty-state-title { font-size: 14px; font-weight: 500; color: var(--text2); margin-bottom: 6px; }
+
+  /* Page visibility */
+  .page { display: none; }
+  .page.active { display: block; }
+  .ai-page { display: none; }
+  .ai-page.active { display: flex; flex-direction: column; height: calc(100vh - 57px); }
+
+  /* Star rating */
+  .star-btn {
+    background: var(--bg4); border: 1px solid var(--border);
+    color: var(--text3); font-size: 20px; width: 38px; height: 38px;
+    border-radius: 8px; cursor: pointer; transition: all 0.15s;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .star-btn.active { background: var(--amber-dim); color: var(--amber); border-color: rgba(245,158,11,0.3); }
+
+  /* Response time indicator */
+  .resp-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+  .resp-good { background: var(--green); }
+  .resp-warn { background: var(--amber); }
+  .resp-bad  { background: var(--red); }
+
+  /* Checklist items */
+  .checklist-section { margin-bottom: 20px; }
+  .checklist-section-title { font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 10px; }
+  .checklist-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 12px; border-radius: 8px; cursor: pointer;
+    transition: background 0.12s; margin-bottom: 4px;
+  }
+  .checklist-item:hover { background: var(--bg3); }
+  .checklist-item.done { opacity: 0.6; }
+  .checklist-cb {
+    width: 18px; height: 18px; border-radius: 5px;
+    border: 2px solid var(--border2); background: transparent;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px; transition: all 0.15s;
+  }
+  .checklist-item.done .checklist-cb { background: var(--green); border-color: var(--green); }
+  .checklist-label { font-size: 13px; font-weight: 500; }
+  .checklist-hint { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .checklist-item.done .checklist-label { text-decoration: line-through; color: var(--text3); }
+
+  /* Earnings bar */
+  .earn-bar-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .earn-bar-label { width:120px; font-size:12px; color:var(--text2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .earn-bar-track { flex:1; height:6px; background:var(--bg4); border-radius:3px; overflow:hidden; }
+  .earn-bar-fill { height:100%; border-radius:3px; background:var(--green); transition:width 0.5s ease; }
+  .earn-bar-val { width:60px; text-align:right; font-size:12px; font-weight:600; color:var(--green); }
+
+  /* Review card */
+  .review-card { padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .review-card:last-child { border-bottom: none; }
+  .review-stars { color: var(--amber); font-size: 14px; letter-spacing: 1px; }
+  .review-text { font-size: 13px; color: var(--text2); margin: 6px 0; line-height: 1.6; font-style: italic; }
+  .review-note { font-size: 11px; color: var(--text3); background: var(--bg3); padding: 6px 10px; border-radius: 6px; margin-top: 6px; }
+
+
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 4px; }
+
+  /* Gig writing output */
+  .output-block {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 13px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text2);
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 8px;
+  }
+
+  .progress-bar { height: 4px; background: var(--bg4); border-radius: 2px; overflow: hidden; margin: 8px 0; }
+  .progress-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width 0.4s ease; }
+
+  .account-selector {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;
+  }
+  .account-chip {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 10px; border-radius: 20px;
+    border: 1px solid var(--border); background: var(--bg3);
+    cursor: pointer; font-size: 12px; color: var(--text2);
+    transition: all 0.15s;
+  }
+  .account-chip:hover { border-color: var(--green); color: var(--green); }
+  .account-chip.selected { border-color: var(--green); background: var(--green-dim); color: var(--green); }
+  .account-chip-dot { width: 7px; height: 7px; border-radius: 50%; }
+
+  .tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; background: var(--bg4); border-radius: 4px; font-size: 11px; color: var(--text2); font-family: 'JetBrains Mono', monospace; margin: 2px; }
+  .tag-remove { cursor: pointer; color: var(--text3); font-size: 13px; line-height: 1; }
+
+  .two-col { display: grid; grid-template-columns: 260px 1fr; gap: 20px; align-items: start; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .sidebar { width: 180px; min-width: 180px; }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-mark">Gig<span>Master</span></div>
+      <div class="logo-sub">Fiverr Intelligence Platform</div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Overview</div>
+      <button class="nav-item active" data-onclick="showPage('dashboard')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </button>
+      <button class="nav-item" data-onclick="showPage('feed')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Intelligence feed
+        <span class="nav-badge" id="feed-badge">3</span>
+      </button>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Accounts</div>
+      <button class="nav-item" data-data-onclick="showPage('accounts')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        All accounts
+        <span class="nav-badge">4</span>
+      </button>
+      <button class="nav-item" data-onclick="showPage('gigs')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        All gigs
+        <span class="nav-badge" id="gigs-badge">11</span>
+      </button>
+      <button class="nav-item" data-onclick="showPage('orders')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 8h10M7 12h6"/></svg>
+        Orders
+        <span class="nav-badge" id="orders-badge">0</span>
+      </button>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Create</div>
+      <button class="nav-item" data-onclick="showPage('research')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Gig research
+      </button>
+      <button class="nav-item" data-onclick="showPage('write')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Write a gig
+      </button>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Track</div>
+      <button class="nav-item" data-onclick="showPage('reviews')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h8M8 14h4"/></svg>
+        Reviews
+        <span class="nav-badge" id="reviews-badge">0</span>
+      </button>
+      <button class="nav-item" data-onclick="showPage('earnings')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Earnings
+      </button>
+      <button class="nav-item" data-onclick="showPage('checklist')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,11 12,14 22,4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Gig checklist
+      </button>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">AI Tools</div>
+      <button class="nav-item" data-onclick="showPage('ai')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        AI assistant
+      </button>
+      <button class="nav-item" data-onclick="showPage('recommend')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"/></svg>
+        Recommender
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      <button class="nav-item" data-onclick="openModal('addAccountModal')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Add account
+      </button>
+      <button class="nav-item" id="settings-btn" style="color:var(--text3);margin-top:2px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        API key settings
+      </button>
+      <button class="nav-item" data-onclick="resetAllData()" style="color:var(--text3);margin-top:2px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1,4 1,10 7,10"/><path d="M3.51 15a9 9 0 1 0 .49-4.85"/></svg>
+        Reset to demo data
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main">
+
+    <!-- DASHBOARD -->
+    <div id="page-dashboard" class="page active">
+      <div class="topbar">
+        <div>
+          <div class="topbar-title">Dashboard</div>
+          <div class="topbar-sub">Good morning, Ademola — here's your Fiverr overview</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn btn-ghost" data-onclick="showPage('feed')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Intelligence feed
+          </button>
+          <button class="btn btn-primary" data-onclick="showPage('write')">+ New gig</button>
+        </div>
+      </div>
+      <div class="content">
+
+        <div class="grid-4" style="margin-bottom:20px">
+          <div class="stat-card" data-data-onclick="showPage('accounts')" style="cursor:pointer">
+            <div class="stat-label">Total accounts</div>
+            <div class="stat-value" id="dash-stat-accounts" style="color:var(--text)">—</div>
+            <div class="stat-delta" id="dash-stat-accounts-sub">—</div>
+          </div>
+          <div class="stat-card" data-onclick="showPage('gigs')" style="cursor:pointer">
+            <div class="stat-label">Active gigs</div>
+            <div class="stat-value" id="dash-stat-gigs" style="color:var(--green)">—</div>
+            <div class="stat-delta" id="dash-stat-gigs-sub">—</div>
+          </div>
+          <div class="stat-card" data-onclick="showPage('orders')" style="cursor:pointer">
+            <div class="stat-label">Active orders</div>
+            <div class="stat-value" id="dash-stat-orders" style="color:var(--amber)">—</div>
+            <div class="stat-delta" id="dash-stat-orders-sub">—</div>
+          </div>
+          <div class="stat-card" data-onclick="showPage('earnings')" style="cursor:pointer">
+            <div class="stat-label">Revenue (30d)</div>
+            <div class="stat-value" id="dash-stat-revenue" style="color:var(--green)">—</div>
+            <div class="stat-delta" id="dash-stat-revenue-sub">—</div>
+          </div>
+        </div>
+
+        <div id="dash-alert-bar"></div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Accounts at a glance</div>
+                <div class="card-sub">Click any account to manage it</div>
+              </div>
+              <button class="btn btn-ghost" style="font-size:12px;padding:5px 10px" data-data-onclick="showPage('accounts')">View all</button>
+            </div>
+            <div id="dash-accounts"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Latest intelligence</div>
+                <div class="card-sub">Updates you can act on now</div>
+              </div>
+              <button class="btn btn-ghost" style="font-size:12px;padding:5px 10px" data-onclick="showPage('feed')">See all</button>
+            </div>
+            <div id="dash-feed"></div>
+          </div>
+        </div>
+
+        <div class="section-gap"></div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Recent gigs</div>
+              <div class="card-sub">Across all accounts</div>
+            </div>
+            <button class="btn btn-ghost" style="font-size:12px;padding:5px 10px" data-onclick="showPage('gigs')">View all</button>
+          </div>
+          <div id="dash-gigs"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ACCOUNTS PAGE -->
+    <div id="page-accounts" class="page">
+      <div class="topbar">
+        <div>
+          <div class="topbar-title">All accounts</div>
+          <div class="topbar-sub">Manage your Fiverr profiles and team ownership</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn btn-primary" data-onclick="openModal('addAccountModal')">+ Add account</button>
+        </div>
+      </div>
+      <div class="content">
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Response time tracker</div>
+              <div class="card-sub">Slow replies drop your search ranking — log every reply</div>
+            </div>
+            <button class="btn btn-ghost" style="font-size:12px;padding:5px 10px" data-onclick="openModal('logReplyModal')">+ Log reply</button>
+          </div>
+          <div id="response-tracker"></div>
+        </div>
+        <div class="account-grid" id="accounts-grid"></div>
+      </div>
+    </div>
+
+    <!-- GIGS PAGE -->
+    <div id="page-gigs" class="page">
+      <div class="topbar">
+        <div>
+          <div class="topbar-title">All gigs</div>
+          <div class="topbar-sub">Every gig across all accounts</div>
+        </div>
+        <div class="topbar-actions">
+          <select class="form-select" style="width:160px;padding:6px 10px" id="gig-account-filter" data-onchange="renderGigs()">
+            <option value="all">All accounts</option>
+          </select>
+          <button class="btn btn-primary" data-onclick="showPage('write')">+ Write gig</button>
+        </div>
+      </div>
+      <div class="content">
+        <div class="card">
+          <div id="gigs-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESEARCH PAGE -->
+    <div id="page-research" class="page">
+      <div class="topbar">
+        <div>
+          <div class="topbar-title">Gig research</div>
+          <div class="topbar-sub">4-phase niche validation system — run before writing any gig</div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="two-col">
+          <div>
+            <div class="card" style="margin-bottom:14px">
+              <div class="card-title" style="margin-bottom:12px">Research phases</div>
+              <div class="phase-steps">
+                <div class="phase-step active" data-onclick="setResearchPhase(1)">
+                  <div class="step-num">1</div>
+                  <div>
+                    <div class="step-label">Niche landscape scan</div>
+                    <div class="step-sublabel">Map what's being sold</div>
+                  </div>
+                </div>
+                <div class="phase-step" data-onclick="setResearchPhase(2)">
+                  <div class="step-num">2</div>
+                  <div>
+                    <div class="step-label">Competition analysis</div>
+                    <div class="step-sublabel">Find the gap</div>
+                  </div>
+                </div>
+                <div class="phase-step" data-onclick="setResearchPhase(3)">
+                  <div class="step-num">3</div>
+                  <div>
+                    <div class="step-label">Gig idea scoring</div>
+                    <div class="step-sublabel">Score & stress-test ideas</div>
+                  </div>
+                </div>
+                <div class="phase-step" data-onclick="setResearchPhase(4)">
+                  <div class="step-num">4</div>
+                  <div>
+                    <div class="step-label">Research brief + keywords</div>
+                    <div class="step-sublabel">40+ keywords, full brief</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title" style="margin-bottom:8px">Account to research for</div>
+              <div class="account-selector" id="research-account-chips"></div>
+            </div>
+          </div>
+          <div class="ai-pane" id="research-ai-pane" style="height:auto">
+            <div class="card" style="flex:1">
+              <div class="card-header">
+                <div>
+                  <div class="card-title" id="research-phase-title">Phase 1 — Niche landscape scan</div>
+                  <div class="card-sub" id="research-phase-sub">Enter your niche to map what's being sold</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Your niche</label>
+                <input class="form-input" id="research-niche" placeholder="e.g. Shopify store design, React Native apps, AI content writing..." />
+              </div>
+              <div id="research-prompt-preview" class="output-block" style="display:none;margin-bottom:14px"></div>
+              <div id="research-output" style="display:none">
+                <div class="divider"></div>
+                <div class="card-title" style="margin-bottom:8px">AI output</div>
+                <div id="research-result" class="output-block"></div>
+                <div style="display:flex;gap:8px;margin-top:12px">
+                  <button class="btn btn-primary" data-onclick="proceedResearch()">Proceed to next phase →</button>
+                  <button class="btn btn-ghost" data-onclick="copyOutput('research-result')">Copy output</button>
+                </div>
+              </div>
+              <button class="btn btn-primary" id="research-run-btn" data-onclick="runResearch()">Run phase 1</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WRITE GIG PAGE -->
+    <div id="page-write" class="page">
+      <div class="topbar">
+        <div>
+          <div class="topbar-title">Write a gig</div>
+          <div class="topbar-sub">7-step AI gig writing system — each step builds on the last</div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="two-col">
+          <div>
+            <div class="card" style="margin-bottom:14px">
+              <div class="card-title" style="margin-bottom:12px">Writing steps</div>
+              <div class="phase-steps" id="write-steps"></div>
+            </div>
+            <div class="card">
+              <div class="card-title" style="margin-bottom:8px">Assign to account</div>
+              <div class="account-selector" id="write-account-chips"></div>
+              <div class="alert alert-warn" style="margin-top:10px;margin-bottom:0;font-size:11px">
+                <span class="alert-icon" style="font-size:12px">⚠️</span>
+                <span>The URL slug is <strong>permanent</strong>. Once published on Fiverr, your first title keywords can never change. Research thoroughly before publishing.</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="card" style="margin-bottom:14px">
+              <div class="card-header" style="margin-bottom:14px">
+                <div>
+                  <div class="card-title" id="write-step-title">Step 1 — Competitor intelligence scan</div>
+                  <div class="card-sub" id="write-step-sub">Paste competitor gig titles to reverse-engineer what's ranking</div>
+                </div>
+                <div class="badge badge-gray" id="write-step-badge">Step 1/7</div>
+              </div>
+              <div id="write-step-form"></div>
+              <div id="write-output" style="display:none">
+                <div class="divider"></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+                  <div class="card-title">AI output</div>
+                  <button class="btn btn-ghost" style="font-size:11px;padding:4px 10px" data-onclick="copyOutput('write-result')">Copy</button>
+                </div>
+                <div id="write-result" class="output-block"></div>
+                <div style="display:flex;gap:8px;margin-top:12px">
+                  <button class="btn btn-primary" id="write-next-btn" data-onclick="nextWriteStep()">Next step →</button>
+                  <button class="btn btn-ghost" data-onclick="saveGigDraft()">Save draft</button>
+                </div>
+              </div>
+              <div id="write-run-area">
+                <button class="btn btn-primary" data-onclick="runWriteStep()">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg>
+                  Run step
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTELLIGENCE FEED -->
+    <div id="page-feed" class="page">
+      <div class="topbar">
+        <div>
+          <div class="topbar-title">Intelligence feed</div>
+          <div class="topbar-sub">Platform updates and opportunities you can act on now</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn btn-ghost" id="scan-btn" data-onclick="runScan()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1,4 1,10 7,10"/><path d="M3.51 15a9 9 0 1 0 .49-4.85"/></svg>
+            Scan now
+          </button>
+        </div>
+      </div>
+      <div class="content">
+        <div class="tabs">
+          <button class="tab active" data-onclick="filterFeed('all',this)">All updates</button>
+          <button class="tab" data-onclick="filterFeed('fiverr',this)">Fiverr changes</button>
+          <button class="tab" data-onclick="filterFeed('platform',this)">Platform news</button>
+          <button class="tab" data-onclick="filterFeed('opportunity',this)">Opportunities</button>
+        </div>
+        <div class="card">
+          <div id="feed-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI ASSISTANT -->
+    <div id="page-ai" class="ai-page">
+      <div class="topbar">
+        <div>
+          <div class="topbar-title">AI assistant</div>
+          <div class="topbar-sub">Ask anything about your accounts, gigs, research, or strategy</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn btn-ghost" data-onclick="clearChat()">Clear chat</button>
+        </div>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="msg ai">
+          <div class="msg-avatar ai">G</div>
+          <div class="msg-bubble">
+            <p>Hey Ademola! I know all your accounts, gigs, and research. Ask me anything:</p>
+            <ul>
+              <li><strong>Which account should I use for a new Shopify gig?</strong></li>
+              <li><strong>What keywords should I target for React Native?</strong></li>
+              <li><strong>Which of my accounts is most overloaded right now?</strong></li>
+              <li><strong>Help me improve my gig description for devcraft_ng</strong></li>
+              <li><strong>What does the Fiverr algorithm prioritise for new sellers?</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <div class="quick-prompts">
+          <button class="quick-prompt" data-onclick="useQuickPrompt('Which account should I use for a new Shopify gig?')">Best account for Shopify gig?</button>
+          <button class="quick-prompt" data-onclick="useQuickPrompt('Which of my accounts has the best health score right now?')">Account health check</button>
+          <button class="quick-prompt" data-onclick="useQuickPrompt('What are the most important things to get right when publishing a new Fiverr gig?')">New gig checklist</button>
+          <button class="quick-prompt" data-onclick="useQuickPrompt('What niche opportunities should I explore based on my current accounts?')">Find opportunities</button>
+        </div>
+        <div class="chat-input-row">
+          <textarea class="chat-textarea" id="chat-input" placeholder="Ask about your accounts, gigs, strategy..." rows="1" onkeydown="handleChatKey(event)" oninput="autoResize(this)"></textarea>
+          <button class="chat-send" id="chat-send" data-onclick="sendChat()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECOMMENDER -->
+    <div id="page-recommend" class="page">
+      <div class="topbar">
+        <div>
+          <div class="topbar-title">Account recommender</div>
+          <div class="topbar-sub">Tell me about your new gig and I'll pick the best account for it</div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="grid-2">
+          <div>
+            <div class="card">
+              <div class="card-title" style="margin-bottom:14px">Describe your new gig</div>
+              <div class="form-group">
+                <label class="form-label">Service / niche</label>
+                <input class="form-input" id="rec-service" placeholder="e.g. Shopify store redesign, AI chatbot integration..." />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Target buyer</label>
+                <input class="form-input" id="rec-buyer" placeholder="e.g. Small ecommerce businesses, SaaS startups..." />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Expected price range</label>
+                <select class="form-select" id="rec-price">
+                  <option>$10 – $50 (entry-level)</option>
+                  <option>$50 – $150 (mid-range)</option>
+                  <option>$150 – $500 (premium)</option>
+                  <option>$500+ (enterprise)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Any special requirements?</label>
+                <textarea class="form-textarea" id="rec-notes" placeholder="e.g. needs React experience, must have 4.8+ rating..." style="min-height:60px"></textarea>
+              </div>
+              <button class="btn btn-primary" data-onclick="runRecommender()" style="width:100%">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"/></svg>
+                Get recommendation
+              </button>
+            </div>
+          </div>
+          <div id="rec-result-pane">
+            <div class="empty-state">
+              <div class="empty-state-icon">✦</div>
+              <div class="empty-state-title">Fill in the details and get a recommendation</div>
+              <div style="font-size:12px;margin-top:4px">I'll analyse all your accounts and pick the best fit</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDERS PAGE -->
+    <div id="page-orders" class="page">
+      <div class="topbar">
+        <div>
+          <div class="topbar-title">Orders</div>
+          <div class="topbar-sub">Track every order across all accounts</div>
+        </div>
+        <div class="topbar-actions">
+          <select class="form-select" style="width:160px;padding:6px 10px" id="order-account-filter" data-onchange="renderOrders()">
+            <option value="all">All accounts</option>
+          </select>
+          <select class="form-select" style="width:140px;padding:6px 10px" id="order-status-filter" data-onchange="renderOrders()">
+            <option value="all">All statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Completed">Completed</option>
+            <option value="Revision">Revision</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+          <button class="btn btn-primary" data-onclick="openModal('addOrderModal')">+ Log order</button>
+        </div>
+      </div>
+      <div class="content">
+
+        <div class="grid-4" style="margin-bottom:20px" id="order-stats-row">
+          <div class="stat-card">
+            <div class="stat-label">Active orders</div>
+            <div class="stat-value" id="os-active" style="color:var(--green)">0</div>
+            <div class="stat-delta">In progress + pending</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Due today</div>
+            <div class="stat-value" id="os-due" style="color:var(--amber)">0</div>
+            <div class="stat-delta warn" id="os-due-delta">All clear</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Completed (30d)</div>
+            <div class="stat-value" id="os-completed" style="color:var(--text)">0</div>
+            <div class="stat-delta up" id="os-rev-delta">$0 earned</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Cancellations</div>
+            <div class="stat-value" id="os-cancelled" style="color:var(--red)">0</div>
+            <div class="stat-delta" id="os-cancel-rate">0% cancel rate</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div id="orders-list">
+            <div class="empty-state">
+              <div class="empty-state-icon">📋</div>
+              <div class="empty-state-title">No orders logged yet</div>
+              <div style="font-size:12px;margin-top:4px;color:var(--text3)">Click "+ Log order" when a buyer places an order</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- REVIEWS PAGE -->
+    <div id="page-reviews" class="page">
+      <div class="topbar">
+        <div>
+          <div class="topbar-title">Reviews</div>
+          <div class="topbar-sub">Log reviews, spot patterns, get AI analysis</div>
+        </div>
+        <div class="topbar-actions">
+          <select class="form-select" style="width:160px;padding:6px 10px" id="review-account-filter" data-onchange="renderReviews()">
+            <option value="all">All accounts</option>
+          </select>
+          <button class="btn btn-primary" data-onclick="openModal('addReviewModal')">+ Log review</button>
+        </div>
+      </div>
+      <div class="content">
+        <div class="grid-4" style="margin-bottom:20px">
+          <div class="stat-card">
+            <div class="stat-label">Total reviews</div>
+            <div class="stat-value" id="rv-total" style="color:var(--text)">0</div>
+            <div class="stat-delta">All logged reviews</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Avg rating</div>
+            <div class="stat-value" id="rv-avg" style="color:var(--green)">—</div>
+            <div class="stat-delta up" id="rv-avg-delta">Across all accounts</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">5-star reviews</div>
+            <div class="stat-value" id="rv-five" style="color:var(--green)">0</div>
+            <div class="stat-delta up" id="rv-five-pct">0% of total</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Low ratings (≤3)</div>
+            <div class="stat-value" id="rv-low" style="color:var(--red)">0</div>
+            <div class="stat-delta">Need attention</div>
+          </div>
+        </div>
+        <div class="grid-2" style="gap:16px">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Review log</div>
+              <button class="btn btn-ghost" style="font-size:11px;padding:5px 10px" data-onclick="analyseReviews()">AI pattern analysis</button>
+            </div>
+            <div id="reviews-list"><div class="empty-state"><div class="empty-state-icon">⭐</div><div class="empty-state-title">No reviews logged yet</div><div style="font-size:12px;margin-top:4px;color:var(--text3)">Log reviews as they come in to track patterns</div></div></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">AI pattern analysis</div></div>
+            <div id="review-analysis-output"><div class="empty-state"><div class="empty-state-icon">🔍</div><div class="empty-state-title">Click "AI pattern analysis" to run</div><div style="font-size:12px;margin-top:4px;color:var(--text3)">The AI will spot what clients love and what they're flagging</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EARNINGS PAGE -->
+    <div id="page-earnings" class="page">
+      <div class="topbar">
+        <div>
+          <div class="topbar-title">Earnings</div>
+          <div class="topbar-sub">Real revenue across all accounts</div>
+        </div>
+        <div class="topbar-actions">
+          <select class="form-select" style="width:160px;padding:6px 10px" id="earn-period" data-onchange="renderEarnings()">
+            <option value="7">Last 7 days</option>
+            <option value="30" selected>Last 30 days</option>
+            <option value="90">Last 90 days</option>
+            <option value="all">All time</option>
+          </select>
+        </div>
+      </div>
+      <div class="content">
+        <div class="grid-4" style="margin-bottom:20px">
+          <div class="stat-card">
+            <div class="stat-label">Total earned</div>
+            <div class="stat-value" id="earn-total" style="color:var(--green)">$0</div>
+            <div class="stat-delta" id="earn-period-label">Last 30 days</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Avg per order</div>
+            <div class="stat-value" id="earn-avg" style="color:var(--text)">$0</div>
+            <div class="stat-delta">Completed orders only</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Best account</div>
+            <div class="stat-value" id="earn-best" style="color:var(--purple);font-size:16px">—</div>
+            <div class="stat-delta" id="earn-best-amt">$0 earned</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Pending revenue</div>
+            <div class="stat-value" id="earn-pending" style="color:var(--amber)">$0</div>
+            <div class="stat-delta">Active orders</div>
+          </div>
+        </div>
+        <div class="grid-2" style="gap:16px">
+          <div class="card">
+            <div class="card-header"><div class="card-title">Earnings by account</div></div>
+            <div id="earn-by-account"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">Earnings by gig</div></div>
+            <div id="earn-by-gig"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GIG CHECKLIST PAGE -->
+    <div id="page-checklist" class="page">
+      <div class="topbar">
+        <div>
+          <div class="topbar-title">Gig publish checklist</div>
+          <div class="topbar-sub">Complete every step before going live — protects your URL slug and ranking</div>
+        </div>
+        <div class="topbar-actions">
+          <select class="form-select" style="width:200px;padding:6px 10px" id="checklist-gig-select" data-onchange="renderChecklist()">
+            <option value="">— Select a gig —</option>
+          </select>
+        </div>
+      </div>
+      <div class="content">
+        <div id="checklist-container">
+          <div class="empty-state" style="padding:60px 0">
+            <div class="empty-state-icon">☑️</div>
+            <div class="empty-state-title">Select a gig to start its checklist</div>
+            <div style="font-size:12px;margin-top:4px;color:var(--text3)">Each gig gets its own independent checklist</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESPONSE TRACKER (embedded in accounts) -->
+
+  </main>
+</div>
+
+<!-- Add Review Modal -->
+<div class="modal-overlay" id="addReviewModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div><div class="modal-title">Log a review</div><div class="card-sub" style="margin-top:4px">Attach it to the right gig and account</div></div>
+      <button class="modal-close" data-onclick="closeModal('addReviewModal')">✕</button>
+    </div>
+    <div class="grid-2" style="gap:12px">
+      <div class="form-group">
+        <label class="form-label">Account</label>
+        <select class="form-select" id="rev-account-select" data-onchange="populateRevGigSelect()"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Gig</label>
+        <select class="form-select" id="rev-gig-select"><option value="">— select account first —</option></select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Buyer username</label>
+      <input class="form-input" id="rev-buyer" placeholder="e.g. john_doe99" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Rating</label>
+      <div style="display:flex;gap:8px">
+        <button class="star-btn" data-val="1" data-onclick="setStarRating(1)">★</button>
+        <button class="star-btn" data-val="2" data-onclick="setStarRating(2)">★</button>
+        <button class="star-btn" data-val="3" data-onclick="setStarRating(3)">★</button>
+        <button class="star-btn" data-val="4" data-onclick="setStarRating(4)">★</button>
+        <button class="star-btn" data-val="5" data-onclick="setStarRating(5)">★</button>
+      </div>
+      <input type="hidden" id="rev-rating" value="5" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Review text (paste from Fiverr)</label>
+      <textarea class="form-textarea" id="rev-text" placeholder="Paste the buyer's review text here..." style="min-height:80px"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Your private notes</label>
+      <textarea class="form-textarea" id="rev-notes" placeholder="Internal notes: what went well, what to improve..." style="min-height:50px"></textarea>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+      <button class="btn btn-ghost" data-onclick="closeModal('addReviewModal')">Cancel</button>
+      <button class="btn btn-primary" data-onclick="addReview()">Log review</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Order Modal -->
+<div class="modal-overlay" id="addOrderModal">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">Log new order</div>
+        <div class="card-sub" style="margin-top:4px">Track this order from start to completion</div>
+      </div>
+      <button class="modal-close" data-onclick="closeModal('addOrderModal')">✕</button>
+    </div>
+    <div class="grid-2" style="gap:12px">
+      <div class="form-group">
+        <label class="form-label">Account</label>
+        <select class="form-select" id="order-account-select"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Gig</label>
+        <select class="form-select" id="order-gig-select"><option value="">— select account first —</option></select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Buyer username</label>
+      <input class="form-input" id="order-buyer" placeholder="e.g. john_doe99" />
+    </div>
+    <div class="grid-2" style="gap:12px">
+      <div class="form-group">
+        <label class="form-label">Order value ($)</label>
+        <input class="form-input" id="order-amount" type="number" min="0" step="0.01" placeholder="e.g. 150" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Deadline</label>
+        <input class="form-input" id="order-deadline" type="date" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Status</label>
+      <select class="form-select" id="order-status-select">
+        <option>Pending</option>
+        <option selected>In Progress</option>
+        <option>Delivered</option>
+        <option>Revision</option>
+        <option>Completed</option>
+        <option>Cancelled</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Notes</label>
+      <textarea class="form-textarea" id="order-notes" placeholder="e.g. Client wants 3 revisions max, delivering React store..." style="min-height:60px"></textarea>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+      <button class="btn btn-ghost" data-onclick="closeModal('addOrderModal')">Cancel</button>
+      <button class="btn btn-primary" data-onclick="addOrder()">Log order</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Order Modal -->
+<div class="modal-overlay" id="editOrderModal">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-header">
+      <div><div class="modal-title">Update order</div></div>
+      <button class="modal-close" data-onclick="closeModal('editOrderModal')">✕</button>
+    </div>
+    <input type="hidden" id="edit-order-id" />
+    <div class="form-group">
+      <label class="form-label">Status</label>
+      <select class="form-select" id="edit-order-status">
+        <option>Pending</option>
+        <option>In Progress</option>
+        <option>Delivered</option>
+        <option>Revision</option>
+        <option>Completed</option>
+        <option>Cancelled</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Notes</label>
+      <textarea class="form-textarea" id="edit-order-notes" style="min-height:60px"></textarea>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+      <button class="btn btn-ghost" data-onclick="closeModal('editOrderModal')">Cancel</button>
+      <button class="btn btn-primary" data-onclick="saveOrderEdit()">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Log Reply Modal -->
+<div class="modal-overlay" id="logReplyModal">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header">
+      <div><div class="modal-title">Log a reply</div><div class="card-sub" style="margin-top:4px">Track when you last responded per account</div></div>
+      <button class="modal-close" data-onclick="closeModal('logReplyModal')">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Account</label>
+      <select class="form-select" id="reply-account-select"></select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Replied at</label>
+      <input class="form-input" id="reply-time" type="datetime-local" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Note (optional)</label>
+      <input class="form-input" id="reply-note" placeholder="e.g. Replied to John about Shopify gig..." />
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+      <button class="btn btn-ghost" data-onclick="closeModal('logReplyModal')">Cancel</button>
+      <button class="btn btn-primary" data-onclick="logReply()">Save reply</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Account Modal -->
+<div class="modal-overlay" id="addAccountModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">Add Fiverr account</div>
+        <div class="card-sub" style="margin-top:4px">All data is stored locally — no login required</div>
+      </div>
+      <button class="modal-close" data-onclick="closeModal('addAccountModal')">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Fiverr username</label>
+      <input class="form-input" id="new-username" placeholder="e.g. devcraft_ng" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Display name</label>
+      <input class="form-input" id="new-display" placeholder="e.g. Dev Craft Studio" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Primary niche</label>
+      <input class="form-input" id="new-niche" placeholder="e.g. Shopify development, AI tools, Video editing..." />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Owner / team member</label>
+      <input class="form-input" id="new-owner" placeholder="e.g. Ademola, Blessing, Tunde..." />
+    </div>
+    <div class="grid-2" style="gap:12px">
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Fiverr level</label>
+        <select class="form-select" id="new-level">
+          <option>New seller</option>
+          <option>Level 1</option>
+          <option>Level 2</option>
+          <option>Top rated seller</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Rating (if known)</label>
+        <input class="form-input" id="new-rating" placeholder="e.g. 4.9" type="number" min="1" max="5" step="0.1" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Account health notes</label>
+      <textarea class="form-textarea" id="new-notes" placeholder="e.g. Strong response rate, avoid vacation mode, 2 gigs under-performing..." style="min-height:60px"></textarea>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+      <button class="btn btn-ghost" data-onclick="closeModal('addAccountModal')">Cancel</button>
+      <button class="btn btn-primary" data-onclick="addAccount()">Add account</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// DATA STORE
+// ─────────────────────────────────────────────
+
+const COLORS = [
+  {bg:'#1a2e1a',fg:'#00d084'},{bg:'#1e1a2e',fg:'#8b5cf6'},
+  {bg:'#2e1a1a',fg:'#ef4444'},{bg:'#1a241e',fg:'#3b82f6'},
+  {bg:'#2e2a1a',fg:'#f59e0b'},{bg:'#1e2a2e',fg:'#06b6d4'},
+];
+
+// ─────────────────────────────────────────────
+// PERSISTENCE
+// ─────────────────────────────────────────────
+
+const STORAGE_KEY = 'gigmaster_v1';
+
+const DEFAULT_DATA = {
+  orders: [],
+  accounts: [
+    { id:1, username:'devcraft_ng', display:'Dev Craft Studio', niche:'Shopify & React dev', owner:'Ademola', level:'Level 2', rating:4.9, orders:42, gigs:3, health:88, notes:'Strong performer. High CTR on Shopify gig. Avoid vacation mode — ranked 1st page for 3 terms.' },
+    { id:2, username:'blessing_writes', display:'Blessing Content Co.', niche:'AI content & copywriting', owner:'Blessing', level:'Level 1', rating:4.7, orders:18, gigs:4, health:72, notes:'Response time slipping. FAQ keywords not optimised. Consider gig description rewrite.' },
+    { id:3, username:'tunde_designs', display:'Tunde Creative Hub', niche:'Branding & logo design', owner:'Tunde', level:'New seller', rating:0, orders:0, gigs:2, health:55, notes:'Just launched. URL slugs set correctly. Needs first 3 reviews to build momentum.' },
+    { id:4, username:'ademola_ai', display:'Ademola AI Labs', niche:'AI automation & tools', owner:'Ademola', level:'Level 1', rating:4.8, orders:9, gigs:2, health:81, notes:'High growth potential. Promoted gigs active at $5/day. Monitor conversion rate closely.' },
+  ],
+  gigs: [
+    { id:1, accountId:1, title:'I will build and deploy your Shopify store with React and custom theme', status:'Active', impressions:1420, clicks:87, orders:12, rating:5.0, slug:'shopify store react custom theme build deploy', emoji:'🛒' },
+    { id:2, accountId:1, title:'I will fix your Shopify liquid code and theme customisation bugs', status:'Active', impressions:980, clicks:54, orders:8, rating:4.8, slug:'shopify liquid fix theme bug customisation', emoji:'🔧' },
+    { id:3, accountId:1, title:'I will migrate your WooCommerce store to Shopify with zero data loss', status:'Active', impressions:640, clicks:31, orders:5, rating:5.0, slug:'woocommerce shopify migration data transfer store', emoji:'🔄' },
+    { id:4, accountId:2, title:'I will write SEO blog posts and articles using AI research tools', status:'Active', impressions:530, clicks:28, orders:6, rating:4.9, slug:'seo blog article writing ai content research', emoji:'✍️' },
+    { id:5, accountId:2, title:'I will create your email marketing sequence with AI copywriting', status:'Active', impressions:410, clicks:18, orders:3, rating:4.5, slug:'email marketing sequence copy automation ai', emoji:'📧' },
+    { id:6, accountId:2, title:'I will write product descriptions for your ecommerce store', status:'Active', impressions:320, clicks:14, orders:2, rating:4.7, slug:'product description ecommerce copywriting shopify amazon', emoji:'🏷️' },
+    { id:7, accountId:2, title:'I will build your LinkedIn content calendar with AI strategy', status:'Paused', impressions:180, clicks:8, orders:1, rating:4.0, slug:'linkedin content calendar strategy ai social media', emoji:'💼' },
+    { id:8, accountId:3, title:'I will design a modern logo with brand identity package', status:'Active', impressions:220, clicks:9, orders:0, rating:0, slug:'logo design brand identity modern minimalist business', emoji:'🎨' },
+    { id:9, accountId:3, title:'I will create your complete brand kit with style guide', status:'Active', impressions:190, clicks:7, orders:0, rating:0, slug:'brand kit style guide identity design canva figma', emoji:'🖌️' },
+    { id:10, accountId:4, title:'I will build an AI chatbot for your website using GPT and Voiceflow', status:'Active', impressions:870, clicks:52, orders:5, rating:4.8, slug:'ai chatbot gpt voiceflow website automation build', emoji:'🤖' },
+    { id:11, accountId:4, title:'I will automate your business workflow with Make Zapier and AI', status:'Active', impressions:620, clicks:38, orders:4, rating:4.9, slug:'workflow automation make zapier ai business process', emoji:'⚙️' },
+  ],
+  feed: [
+    { id:1, category:'fiverr', icon:'🟢', title:'Fiverr updated its search algorithm — response time weight increased', desc:'Fiverr confirmed that response time now carries more ranking weight. Accounts not replying within 2 hours are being demoted in search. Set up quick reply templates now.', time:'2 hours ago', urgent:true, action:'Set quick replies' },
+    { id:2, category:'platform', icon:'🛒', title:'Shopify released its Summer 2026 Editions — 65 new features announced', desc:'Shopify announced major updates including native AI search, improved checkout extensibility, and new headless commerce tools. This is a gig opportunity: sellers offering "Shopify Summer 2026 setup" can rank fast.', time:'5 hours ago', urgent:true, action:'Create gig for this' },
+    { id:3, category:'opportunity', icon:'✨', title:'Low-competition gap found: AI automation + Zapier for coaches', desc:'Search volume for "Zapier automation for coaches" is rising but fewer than 10 gigs cover it specifically. With your ademola_ai account, you could rank on page 1 within 30 days.', time:'1 day ago', urgent:false, action:'Research this niche' },
+    { id:4, category:'fiverr', icon:'🔵', title:'Promoted Gigs CPC costs dropped in Tech & Development category', desc:'Average CPC for development gigs dropped from $0.42 to $0.28 this week, making paid promotion more cost-effective. Good time to activate promoted gigs on your devcraft_ng account.', time:'2 days ago', urgent:false, action:'Activate promoted gigs' },
+    { id:5, category:'platform', icon:'🟡', title:'Notion launched new AI features — freelancers offering Notion setups in demand', desc:'Following the release, searches for "Notion AI setup" and "Notion workspace builder" have spiked. If you add a Notion gig to blessing_writes or ademola_ai, you can ride this trend early.', time:'3 days ago', urgent:false, action:'Add Notion gig' },
+    { id:6, category:'opportunity', icon:'💜', title:'React Native demand up 34% — limited new seller gigs targeting it', desc:'Job boards and Fiverr search data show a 34% spike in React Native requests. Your devcraft_ng account has the perfect profile to target this. Consider a dedicated React Native gig.', time:'4 days ago', urgent:false, action:'Plan React Native gig' },
+  ],
+};
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      return {
+        orders: parsed.orders || [],
+        accounts: parsed.accounts || DEFAULT_DATA.accounts,
+        gigs: parsed.gigs || DEFAULT_DATA.gigs,
+        feed: parsed.feed || DEFAULT_DATA.feed,
+        reviews: parsed.reviews || [],
+        replies: parsed.replies || [],
+        checklists: parsed.checklists || {},
+        currentWriteStep: 1,
+        currentResearchPhase: 1,
+        gigDraft: {},
+        selectedWriteAccount: parsed.selectedWriteAccount || (parsed.accounts?.[0]?.id || 1),
+        selectedResearchAccount: parsed.selectedResearchAccount || (parsed.accounts?.[0]?.id || 1),
+        chatHistory: [],
+      };
+    }
+  } catch(e) {
+    console.warn('GigMaster: failed to load saved data, using defaults.', e);
+  }
+  return {
+    ...DEFAULT_DATA,
+    reviews: [],
+    replies: [],
+    checklists: {},
+    currentWriteStep: 1,
+    currentResearchPhase: 1,
+    gigDraft: {},
+    selectedWriteAccount: 1,
+    selectedResearchAccount: 1,
+    chatHistory: [],
+  };
+}
+
+// saveState defined below
+
+let state = loadState();
+
+const WRITE_STEPS = [
+  { num:1, label:'Competitor scan', sub:'Reverse-engineer page 1' },
+  { num:2, label:'Keyword mining', sub:'40+ keywords in 6 clusters' },
+  { num:3, label:'Gig titles', sub:'Slug + display title (78-80 chars)' },
+  { num:4, label:'Description', sub:'AIDA, 1100 chars, client-focused' },
+  { num:5, label:'Pricing packages', sub:'3-tier psychological pricing' },
+  { num:6, label:'FAQs & tags', sub:'10 FAQs + 5 search tags' },
+  { num:7, label:'Requirements & image', sub:'Brief + launch checklist' },
+];
+
+const RESEARCH_PHASES = [
+  { num:1, label:'Niche landscape scan', sub:'Map what\'s being sold', title:'Phase 1 — Niche landscape scan', desc:'Enter your niche to map what\'s being sold' },
+  { num:2, label:'Competition analysis', sub:'Find the gap', title:'Phase 2 — Competition & opportunity analysis', desc:'Study top sellers and find what they\'re missing' },
+  { num:3, label:'Gig idea scoring', sub:'Score & stress-test ideas', title:'Phase 3 — Gig idea scoring & selection', desc:'Score 5-7 ideas and pick the winner' },
+  { num:4, label:'Research brief + keywords', sub:'40+ keywords, full brief', title:'Phase 4 — Research brief + 40+ keywords', desc:'Build your complete gig research brief' },
+];
+
+// ─────────────────────────────────────────────
+// NAVIGATION
+// ─────────────────────────────────────────────
+
+function showPage(name) {
+  document.querySelectorAll('.page, .ai-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const page = document.getElementById('page-' + name);
+  if (page) page.classList.add('active');
+  const btn = [...document.querySelectorAll('.nav-item')].find(b => b.getAttribute('onclick')?.includes("'" + name + "'"));
+  if (btn) btn.classList.add('active');
+}
+
+// ─────────────────────────────────────────────
+// RENDER ACCOUNTS
+// ─────────────────────────────────────────────
+
+function getColor(id) { return COLORS[(id-1) % COLORS.length]; }
+
+function healthColor(h) {
+  if (h >= 80) return 'var(--green)';
+  if (h >= 60) return 'var(--amber)';
+  return 'var(--red)';
+}
+
+function levelBadge(level) {
+  if (level === 'Top rated seller') return 'badge-purple';
+  if (level === 'Level 2') return 'badge-green';
+  if (level === 'Level 1') return 'badge-blue';
+  return 'badge-gray';
+}
+
+function renderDashAccounts() {
+  const el = document.getElementById('dash-accounts');
+  el.innerHTML = state.accounts.slice(0,3).map(a => {
+    const c = getColor(a.id);
+    return `<div class="gig-row" data-onclick="showPage('accounts')">
+      <div class="account-avatar" style="background:${c.bg};color:${c.fg}">${a.display[0]}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:500">@${a.username}</div>
+        <div style="font-size:11px;color:var(--text3)">${a.niche}</div>
+      </div>
+      <div style="text-align:right">
+        <span class="badge ${levelBadge(a.level)}">${a.level}</span>
+        <div style="font-size:11px;color:${healthColor(a.health)};margin-top:4px">${a.health}% health</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderDashStats() {
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+
+  // ── Accounts ──
+  const totalAccounts = state.accounts.length;
+  const healthyAccounts = state.accounts.filter(a => a.health >= 80).length;
+  const warnAccounts   = state.accounts.filter(a => a.health < 60).length;
+  set('dash-stat-accounts', totalAccounts);
+  set('dash-stat-accounts-sub', warnAccounts > 0
+    ? `⚠ ${warnAccounts} need${warnAccounts > 1 ? '' : 's'} attention`
+    : `${healthyAccounts} healthy`);
+  const accEl = document.getElementById('dash-stat-accounts');
+  if (accEl) accEl.style.color = warnAccounts > 0 ? 'var(--amber)' : 'var(--text)';
+
+  // ── Gigs ──
+  const activeGigs = state.gigs.filter(g => g.status === 'Active').length;
+  const totalGigs  = state.gigs.length;
+  const draftGigs  = state.gigs.filter(g => g.status === 'Draft').length;
+  set('dash-stat-gigs', activeGigs);
+  set('dash-stat-gigs-sub', draftGigs > 0 ? `${draftGigs} draft${draftGigs > 1 ? 's' : ''} · ${totalGigs} total` : `${totalGigs} total`);
+
+  // ── Active orders ──
+  const activeOrders  = state.orders.filter(o => ['Pending','In Progress','Revision'].includes(o.status));
+  const now = new Date(); now.setHours(0,0,0,0);
+  const overdueOrders = activeOrders.filter(o => { const d = new Date(o.deadline); d.setHours(0,0,0,0); return d < now; });
+  const dueToday      = activeOrders.filter(o => { const d = new Date(o.deadline); d.setHours(0,0,0,0); return d.getTime() === now.getTime(); });
+  set('dash-stat-orders', activeOrders.length);
+  const ordEl = document.getElementById('dash-stat-orders');
+  if (overdueOrders.length > 0) {
+    set('dash-stat-orders-sub', `🔴 ${overdueOrders.length} overdue`);
+    if (ordEl) ordEl.style.color = 'var(--red)';
+  } else if (dueToday.length > 0) {
+    set('dash-stat-orders-sub', `⚠ ${dueToday.length} due today`);
+    if (ordEl) ordEl.style.color = 'var(--amber)';
+  } else {
+    set('dash-stat-orders-sub', activeOrders.length === 0 ? 'No active orders' : 'All on track');
+    if (ordEl) ordEl.style.color = 'var(--green)';
+  }
+
+  // ── Revenue (30d) ──
+  const thirtyAgo = new Date(); thirtyAgo.setDate(thirtyAgo.getDate() - 30);
+  const completed30 = state.orders.filter(o => o.status === 'Completed' && new Date(o.createdAt) >= thirtyAgo);
+  const rev30 = completed30.reduce((s, o) => s + o.amount, 0);
+  const pending = state.orders.filter(o => ['Pending','In Progress','Revision'].includes(o.status)).reduce((s,o) => s + o.amount, 0);
+  set('dash-stat-revenue', `$${rev30.toFixed(0)}`);
+  set('dash-stat-revenue-sub', pending > 0 ? `$${pending.toFixed(0)} pending` : `${completed30.length} order${completed30.length !== 1 ? 's' : ''} completed`);
+
+  // ── Alert bar ──
+  const alertBar = document.getElementById('dash-alert-bar');
+  if (!alertBar) return;
+
+  const alerts = [];
+
+  // overdue orders alert
+  if (overdueOrders.length > 0) {
+    const names = overdueOrders.slice(0,2).map(o => {
+      const acc = state.accounts.find(a => a.id === o.accountId);
+      return `${o.buyer} (@${acc?.username || '?'})`;
+    }).join(', ');
+    alerts.push({ type:'danger', icon:'🔴', msg:`<strong>${overdueOrders.length} order${overdueOrders.length > 1 ? 's are' : ' is'} overdue</strong> — ${names}${overdueOrders.length > 2 ? ` +${overdueOrders.length - 2} more` : ''}. Deliver immediately to protect your completion rate.`, action:'showPage(\'orders\')', actionLabel:'View orders →' });
+  }
+
+  // due today alert
+  if (dueToday.length > 0 && overdueOrders.length === 0) {
+    alerts.push({ type:'warn', icon:'⚠️', msg:`<strong>${dueToday.length} order${dueToday.length > 1 ? 's' : ''} due today.</strong> Deliver before midnight to avoid late delivery.`, action:'showPage(\'orders\')', actionLabel:'View orders →' });
+  }
+
+  // unhealthy accounts
+  if (warnAccounts > 0) {
+    const bad = state.accounts.filter(a => a.health < 60).map(a => `@${a.username}`).join(', ');
+    alerts.push({ type:'warn', icon:'⚠️', msg:`<strong>${bad} ${warnAccounts > 1 ? 'have' : 'has'} a low health score.</strong> Check response time and order completion rate.`, action:'showPage(\'accounts\')', actionLabel:'View accounts →' });
+  }
+
+  // low reviews
+  const lowReviews = (state.reviews || []).filter(r => r.rating <= 3);
+  if (lowReviews.length > 0) {
+    alerts.push({ type:'warn', icon:'⭐', msg:`<strong>${lowReviews.length} low rating${lowReviews.length > 1 ? 's' : ''} logged.</strong> Review these to spot delivery problems before they affect ranking.`, action:'showPage(\'reviews\')', actionLabel:'View reviews →' });
+  }
+
+  // slow response time
+  const now2 = new Date();
+  const slowAccounts = state.accounts.filter(a => {
+    const last = (state.replies || []).filter(r => r.accountId === a.id).sort((x,y) => new Date(y.time) - new Date(x.time))[0];
+    const hoursAgo = last ? (now2 - new Date(last.time)) / 3600000 : 9999;
+    return hoursAgo > 2;
+  });
+  if (slowAccounts.length > 0) {
+    const names = slowAccounts.map(a => `@${a.username}`).join(', ');
+    alerts.push({ type:'warn', icon:'💬', msg:`<strong>${names} ${slowAccounts.length > 1 ? 'have' : 'has'} not replied in over 2 hours.</strong> Slow responses drop your search ranking directly.`, action:'showPage(\'accounts\')', actionLabel:'Log reply →' });
+  }
+
+  // all clear
+  if (alerts.length === 0) {
+    alertBar.innerHTML = `<div class="alert alert-success" style="margin-bottom:16px"><span class="alert-icon">✅</span> <span>All clear — no urgent issues across your accounts.</span></div>`;
+    return;
+  }
+
+  alertBar.innerHTML = alerts.map(a => `
+    <div class="alert alert-${a.type}" style="margin-bottom:8px">
+      <span class="alert-icon">${a.icon}</span>
+      <span>${a.msg} <button style="background:none;border:none;color:var(--amber);font-weight:600;cursor:pointer;font-family:inherit;font-size:12px;padding:0;margin-left:4px" data-onclick="${a.action}">${a.actionLabel}</button></span>
+    </div>`).join('');
+}
+
+function renderAccountsGrid() {
+  const el = document.getElementById('accounts-grid');
+  el.innerHTML = state.accounts.map(a => {
+    const c = getColor(a.id);
+    const gigCount = state.gigs.filter(g => g.accountId === a.id).length;
+    return `<div class="account-card" data-onclick="">
+      <div class="account-card-top">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="account-avatar" style="background:${c.bg};color:${c.fg};width:44px;height:44px;font-size:18px">${a.display[0]}</div>
+          <div>
+            <div class="account-name">@${a.username}</div>
+            <div class="account-niche">${a.niche}</div>
+          </div>
+        </div>
+        <span class="badge ${levelBadge(a.level)}">${a.level}</span>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:8px">Owner: <span style="color:var(--text2)">${a.owner}</span></div>
+      ${a.notes ? `<div style="font-size:11px;color:var(--text2);background:var(--bg3);border-radius:6px;padding:8px 10px;border:1px solid var(--border)">${a.notes}</div>` : ''}
+      <div class="account-stats">
+        <div class="account-stat-item"><div class="account-stat-val">${a.rating || '—'}</div><div class="account-stat-lbl">Rating</div></div>
+        <div class="account-stat-item"><div class="account-stat-val">${a.orders}</div><div class="account-stat-lbl">Orders</div></div>
+        <div class="account-stat-item"><div class="account-stat-val">${gigCount}</div><div class="account-stat-lbl">Gigs</div></div>
+        <div class="account-stat-item"><div class="account-stat-val" style="color:${healthColor(a.health)}">${a.health}%</div><div class="account-stat-lbl">Health</div></div>
+      </div>
+      <div class="health-bar"><div class="health-fill" style="width:${a.health}%;background:${healthColor(a.health)}"></div></div>
+    </div>`;
+  }).join('');
+}
+
+function renderAccountChips(containerId, selectedId, callback) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = state.accounts.map(a => {
+    const c = getColor(a.id);
+    return `<div class="account-chip ${a.id === selectedId ? 'selected' : ''}" data-onclick="${callback}(${a.id})">
+      <div class="account-chip-dot" style="background:${c.fg}"></div>
+      @${a.username}
+    </div>`;
+  }).join('');
+}
+
+function selectWriteAccount(id) {
+  state.selectedWriteAccount = id;
+  saveState();
+  renderAccountChips('write-account-chips', id, 'selectWriteAccount');
+}
+function selectResearchAccount(id) {
+  state.selectedResearchAccount = id;
+  saveState();
+  renderAccountChips('research-account-chips', id, 'selectResearchAccount');
+}
+
+// ─────────────────────────────────────────────
+// RENDER GIGS
+// ─────────────────────────────────────────────
+
+function renderDashGigs() {
+  const el = document.getElementById('dash-gigs');
+  el.innerHTML = state.gigs.slice(0,5).map(g => {
+    const acc = state.accounts.find(a => a.id === g.accountId);
+    const ctr = g.impressions ? ((g.clicks/g.impressions)*100).toFixed(1) : '0';
+    return `<div class="gig-row">
+      <div class="gig-thumb">${g.emoji}</div>
+      <div class="gig-info">
+        <div class="gig-title">${g.title}</div>
+        <div class="gig-meta">@${acc?.username} · ${g.status === 'Active' ? '<span style="color:var(--green)">Active</span>' : '<span style="color:var(--text3)">Paused</span>'}</div>
+      </div>
+      <div class="gig-stats">
+        <div class="gig-stat-item"><div class="gig-stat-val">${g.impressions.toLocaleString()}</div><div class="gig-stat-lbl">Impressions</div></div>
+        <div class="gig-stat-item"><div class="gig-stat-val">${ctr}%</div><div class="gig-stat-lbl">CTR</div></div>
+        <div class="gig-stat-item"><div class="gig-stat-val">${g.orders}</div><div class="gig-stat-lbl">Orders</div></div>
+        <div class="gig-stat-item"><div class="gig-stat-val">${g.rating || '—'}</div><div class="gig-stat-lbl">Rating</div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderGigs() {
+  const filter = document.getElementById('gig-account-filter')?.value || 'all';
+  const gigs = filter === 'all' ? state.gigs : state.gigs.filter(g => g.accountId == filter);
+  const el = document.getElementById('gigs-list');
+  el.innerHTML = gigs.map(g => {
+    const acc = state.accounts.find(a => a.id === g.accountId);
+    const ctr = g.impressions ? ((g.clicks/g.impressions)*100).toFixed(1) : '0';
+    const c = getColor(g.accountId);
+    return `<div class="gig-row">
+      <div class="gig-thumb">${g.emoji}</div>
+      <div class="gig-info">
+        <div class="gig-title">${g.title}</div>
+        <div class="gig-meta" style="display:flex;gap:8px;align-items:center">
+          <span style="display:inline-flex;align-items:center;gap:4px"><span style="width:6px;height:6px;border-radius:50%;background:${c.fg};display:inline-block"></span>@${acc?.username}</span>
+          <span style="color:${g.status==='Active'?'var(--green)':'var(--text3)'}">● ${g.status}</span>
+          <span style="color:var(--text3);font-family:monospace;font-size:10px">/${g.slug.substring(0,40)}...</span>
+        </div>
+      </div>
+      <div class="gig-stats">
+        <div class="gig-stat-item"><div class="gig-stat-val">${g.impressions.toLocaleString()}</div><div class="gig-stat-lbl">Impr.</div></div>
+        <div class="gig-stat-item"><div class="gig-stat-val">${ctr}%</div><div class="gig-stat-lbl">CTR</div></div>
+        <div class="gig-stat-item"><div class="gig-stat-val">${g.orders}</div><div class="gig-stat-lbl">Orders</div></div>
+        <div class="gig-stat-item"><div class="gig-stat-val">${g.rating||'—'}</div><div class="gig-stat-lbl">Rating</div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function populateGigFilter() {
+  const sel = document.getElementById('gig-account-filter');
+  if (!sel) return;
+  sel.innerHTML = '<option value="all">All accounts</option>' +
+    state.accounts.map(a => `<option value="${a.id}">@${a.username}</option>`).join('');
+}
+
+// ─────────────────────────────────────────────
+// INTELLIGENCE FEED
+// ─────────────────────────────────────────────
+
+let feedFilter = 'all';
+function renderFeed(containerId, limit) {
+  const items = feedFilter === 'all' ? state.feed : state.feed.filter(f => f.category === feedFilter);
+  const data = limit ? items.slice(0,limit) : items;
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = data.map(f => `<div class="feed-item">
+    <div class="feed-icon" style="background:var(--bg3)">${f.icon}</div>
+    <div class="feed-content">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+        <div class="feed-title">${f.title}</div>
+        ${f.urgent ? '<span class="badge badge-red" style="font-size:10px">Urgent</span>' : ''}
+      </div>
+      <div class="feed-desc">${f.desc}</div>
+      <div class="feed-footer">
+        <span class="feed-time">${f.time}</span>
+        <span class="badge badge-gray" style="font-size:10px">${f.category}</span>
+        <button class="feed-action" data-onclick="handleFeedAction('${f.action}')">${f.action} →</button>
+      </div>
+    </div>
+  </div>`).join('');
+}
+
+function filterFeed(cat, btn) {
+  feedFilter = cat;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderFeed('feed-list', null);
+}
+
+function handleFeedAction(action) {
+  if (action.includes('gig')) showPage('write');
+  else if (action.includes('Research')) showPage('research');
+  else if (action.includes('replies')) showPage('ai');
+  else showPage('ai');
+}
+
+async function runScan() {
+  const btn = document.getElementById('scan-btn');
+  btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1,4 1,10 7,10"/><path d="M3.51 15a9 9 0 1 0 .49-4.85"/></svg> Scanning...`;
+  btn.disabled = true;
+
+  const niches = [...new Set(state.accounts.map(a => a.niche))].join(', ');
+  const systemPrompt = `You are GigMaster AI, a Fiverr intelligence analyst. Search the web for the very latest updates relevant to a Fiverr seller. Return ONLY a valid JSON array, no markdown, no preamble. Each item: {"title":"...","desc":"...","category":"fiverr|platform|opportunity","urgent":true|false,"action":"short CTA text","icon":"single emoji"}. Return 4-6 items max.`;
+  const userMsg = `Today is ${new Date().toDateString()}. Search for: (1) any Fiverr platform updates or algorithm changes in the last 7 days, (2) major updates from platforms relevant to these niches: ${niches} — especially Shopify, React, AI tools, Zapier, Make, Notion, (3) any emerging freelance opportunities or trending service demands. For each item give an actionable suggestion for a Fiverr seller. Return raw JSON array only.`;
+
+  try {
+    const backendUrl = await ensureBackend();
+    if (!backendUrl) throw new Error('No backend URL');
+    const response = await fetch(`${backendUrl}/api/claude`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userMsg }],
+        max_tokens: 1000,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+      }),
+    });
+    const data = await response.json();
+    const text = data.content.filter(b => b.type === 'text').map(b => b.text).join('');
+    const clean = text.replace(/```json|```/g, '').trim();
+    const items = JSON.parse(clean);
+    const now = 'Just now';
+    const newItems = items.map((item, i) => ({
+      id: Date.now() + i,
+      category: item.category || 'opportunity',
+      icon: item.icon || '🔵',
+      title: item.title,
+      desc: item.desc,
+      time: now,
+      urgent: !!item.urgent,
+      action: item.action || 'View details',
+    }));
+    state.feed = [...newItems, ...state.feed].slice(0, 20);
+    saveState();
+    renderFeed('feed-list', null);
+    renderFeed('dash-feed', 3);
+    const badge = document.getElementById('feed-badge');
+    if (badge) badge.textContent = newItems.length;
+  } catch(e) {
+    console.warn('Scan error:', e);
+    alert('Scan failed — check your connection or try again.');
+  }
+  btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1,4 1,10 7,10"/><path d="M3.51 15a9 9 0 1 0 .49-4.85"/></svg> Scan now`;
+  btn.disabled = false;
+}
+
+// ─────────────────────────────────────────────
+// WRITE GIG STEPS
+// ─────────────────────────────────────────────
+
+function renderWriteSteps() {
+  const el = document.getElementById('write-steps');
+  el.innerHTML = WRITE_STEPS.map(s => `
+    <div class="phase-step ${s.num === state.currentWriteStep ? 'active' : s.num < state.currentWriteStep ? 'done' : ''}" data-onclick="goToWriteStep(${s.num})">
+      <div class="step-num">${s.num < state.currentWriteStep ? '✓' : s.num}</div>
+      <div><div class="step-label">${s.label}</div><div class="step-sublabel">${s.sub}</div></div>
+    </div>`).join('');
+}
+
+function getWriteForm(step) {
+  const forms = {
+    1: `<div class="form-group"><label class="form-label">Your service (replace [YOUR SERVICE])</label><input class="form-input" id="ws-service" placeholder="e.g. Shopify store design, AI chatbot development..." /></div>
+        <div class="form-group"><label class="form-label">Paste competitor gig titles from Fiverr page 1 <span style="color:var(--text3)">(optional but recommended)</span></label><textarea class="form-textarea" id="ws-competitors" placeholder="Paste 5-10 competitor gig titles here, one per line..." style="min-height:100px"></textarea></div>`,
+    2: `<div class="form-group"><label class="form-label">Service from step 1</label><input class="form-input" id="ws-service2" placeholder="Paste your service from step 1..." /></div>`,
+    3: `<div class="form-group"><label class="form-label">Keywords from step 2 <span style="color:var(--text3)">(paste top keywords)</span></label><textarea class="form-textarea" id="ws-keywords" placeholder="Paste the top keywords from step 2..." style="min-height:80px"></textarea></div>
+        <div class="form-group"><label class="form-label">Competitor titles from step 1</label><textarea class="form-textarea" id="ws-comp-titles" placeholder="Paste competitor titles..." style="min-height:60px"></textarea></div>`,
+    4: `<div class="form-group"><label class="form-label">Gig title (from step 3)</label><input class="form-input" id="ws-title" placeholder="Paste your chosen gig title..." /></div>
+        <div class="form-group"><label class="form-label">All 40+ keywords from step 2</label><textarea class="form-textarea" id="ws-all-keywords" placeholder="Paste all keywords..." style="min-height:80px"></textarea></div>
+        <div class="alert alert-info" style="margin-bottom:0;font-size:11px"><span class="alert-icon">ℹ️</span> Description must be <strong>exactly 1100 characters</strong>. The AI will enforce this.</div>`,
+    5: `<div class="form-group"><label class="form-label">Service & title</label><input class="form-input" id="ws-pkg-service" placeholder="Your service title..." /></div>
+        <div class="form-group"><label class="form-label">Max basic package price ($)</label><input class="form-input" id="ws-basic-price" type="number" value="50" /></div>
+        <div class="form-hint" style="margin-bottom:12px;font-size:11px;color:var(--text3)">Basic should be deliverable in 30-60 mins to keep it entry-level</div>`,
+    6: `<div class="form-group"><label class="form-label">All keywords (for FAQ SEO absorption)</label><textarea class="form-textarea" id="ws-faq-keywords" placeholder="Paste all keywords..." style="min-height:80px"></textarea></div>
+        <div class="alert alert-info" style="margin-bottom:0;font-size:11px"><span class="alert-icon">ℹ️</span> Each FAQ answer must be <strong>exactly 250 characters</strong>. FAQs absorb long-tail keywords the description couldn't fit.</div>`,
+    7: `<div class="form-group"><label class="form-label">Service name</label><input class="form-input" id="ws-req-service" placeholder="Your gig service..." /></div>
+        <div class="alert alert-info" style="font-size:11px"><span class="alert-icon">🚀</span> Step 7 generates gig requirements, an image brief, and your 7-day launch strategy.</div>`,
+  };
+  return forms[step] || '';
+}
+
+function renderWriteStep() {
+  const s = WRITE_STEPS[state.currentWriteStep - 1];
+  document.getElementById('write-step-title').textContent = `Step ${s.num} — ${s.label}`;
+  document.getElementById('write-step-sub').textContent = s.sub;
+  document.getElementById('write-step-badge').textContent = `Step ${s.num}/7`;
+  document.getElementById('write-step-form').innerHTML = getWriteForm(s.num);
+  document.getElementById('write-output').style.display = 'none';
+  document.getElementById('write-run-area').style.display = 'block';
+  document.getElementById('write-next-btn').textContent = s.num < 7 ? 'Next step →' : 'Save completed gig';
+}
+
+function goToWriteStep(n) {
+  state.currentWriteStep = n;
+  renderWriteSteps();
+  renderWriteStep();
+}
+
+function nextWriteStep() {
+  if (state.currentWriteStep < 7) {
+    state.currentWriteStep++;
+    renderWriteSteps();
+    renderWriteStep();
+  } else {
+    saveGigDraft();
+    alert('Gig saved! Head to All gigs to view it.');
+    showPage('gigs');
+  }
+}
+
+function getWritePrompt(step) {
+  const service = document.getElementById('ws-service')?.value || document.getElementById('ws-service2')?.value || document.getElementById('ws-pkg-service')?.value || document.getElementById('ws-req-service')?.value || '[YOUR SERVICE]';
+  const acc = state.accounts.find(a => a.id === state.selectedWriteAccount);
+  const prompts = {
+    1: `Act as a Fiverr SEO strategist. I want to set up a Fiverr gig about "${service}" for account @${acc?.username} (${acc?.niche}). Analyse the following competitor titles and identify: top keywords, patterns, power words, gaps, and the differentiation opportunity. Then suggest the best strategic angle for MY gig.\n\nCompetitor titles:\n${document.getElementById('ws-competitors')?.value || '(none provided — use your knowledge of Fiverr page 1 for this niche)'}`,
+    2: `Act as a Fiverr Search Architect. My gig service is: "${service}". Use the Prefix and Suffix method to simulate Fiverr Auto-Suggest. Generate at least 40 keywords organised into 6 clusters: (1) Root & Core Keywords, (2) Niche-Specific Verticals, (3) Platform & Tool Keywords, (4) Interaction & Intent Phrases, (5) Ancillary & Helper Keywords, (6) Aspirational & Expertise Tags. End with a master numbered list of ALL 40+ keywords. Weight heavily toward Root and Platform/Tool keywords.`,
+    3: `Using the competitor analysis AND these keywords: ${document.getElementById('ws-keywords')?.value || '[keywords]'}, engineer my Fiverr gig title in TWO versions:\n\nVERSION 1 — URL SLUG: 78-80 characters exactly. Platform/tool keywords only, spaces not hyphens.\nVERSION 2 — DISPLAY TITLE: 78-80 characters exactly. Format: Service + Tools + Use case. No management/professional/design unless essential.\n\nCount characters carefully. Both must hit 78-80.`,
+    4: `Write a Fiverr gig description for "${service}" using these keywords: ${document.getElementById('ws-all-keywords')?.value || '[keywords]'}.\n\nStrict rules:\n- EXACTLY 1100 characters (count three times)\n- 5 sections: (1) buyer problem, (2) how I solve it, (3) services offered (10+ bullet points), (4) tools I work with (bullets), (5) CTA\n- AIDA framework implemented naturally — no labels\n- Remove all dashes and hyphens\n- Confident, helpful, professional tone\n- Client-focused: every sentence answers "what's in it for the buyer?"\n- No keyword stuffing. 1% density.\n\nThen immediately rewrite it to be even MORE client-focused per Prompt 3B rules.`,
+    5: `Build 3 Fiverr pricing packages for "${service}". Max basic price: $${document.getElementById('ws-basic-price')?.value || '50'} (must deliver in 30-60 mins). Rules:\n- Basic: entry-level, nudges upgrades\n- Standard: anchor package, best value\n- Premium: serious buyers only\n\nFor each: creative package name, description (max 100 chars, no platform names), price, delivery time, revisions, 4-6 deliverables as checkboxes. Format as a comparison table with psychological pricing logic explained.`,
+    6: `Write 10 FAQ entries for my Fiverr gig using these keywords: ${document.getElementById('ws-faq-keywords')?.value || '[keywords]'}.\n\nRules:\n- Each answer EXACTLY 250 characters\n- Target real buyer questions and objections\n- Naturally absorb remaining long-tail and helper keywords\n- Plain conversational English, not jargon\n- Don't repeat same keyword more than twice across all FAQs\n\nAlso give me exactly 5 search tags (1-3 words each, buyer intent phrases, long-tail, low competition).`,
+    7: `For my "${service}" gig:\n\n1. Write gig requirements (questions to ask buyers before starting — each under 70 chars)\n\n2. Create a complete 1280x769px gig image brief: color palette, headline (max 6 words), subtext (max 10 words), visual elements, font style, layout, what to AVOID, one pattern-interrupt element. No human faces in the image.\n\n3. Give me a concrete 7-day launch strategy: profile optimisation, best publish time, first 3 reviews strategy, Promoted Gigs setup, metrics to track daily, troubleshooting checklist if zero orders after 7 days.`,
+  };
+  return prompts[step];
+}
+
+async function runWriteStep() {
+  const btn = document.querySelector('#write-run-area .btn');
+  btn.textContent = 'Running...';
+  btn.disabled = true;
+
+  const prompt = getWritePrompt(state.currentWriteStep);
+  const acc = state.accounts.find(a => a.id === state.selectedWriteAccount);
+  const systemContext = `You are GigMaster AI, an expert Fiverr gig strategist. You know all details about this account: @${acc?.username}, niche: ${acc?.niche}, level: ${acc?.level}, health: ${acc?.health}%, notes: ${acc?.notes}. Follow every character count instruction with absolute precision. Be specific, actionable, and optimised for Fiverr's 2026 algorithm.`;
+
+  try {
+    const result = await callClaude(systemContext, prompt);
+    document.getElementById('write-result').textContent = result;
+    document.getElementById('write-output').style.display = 'block';
+    document.getElementById('write-run-area').style.display = 'none';
+    state.gigDraft['step' + state.currentWriteStep] = result;
+  } catch(e) {
+    document.getElementById('write-result').textContent = 'Error: ' + e.message;
+    document.getElementById('write-output').style.display = 'block';
+    document.getElementById('write-run-area').style.display = 'none';
+  }
+  btn.textContent = 'Run step';
+  btn.disabled = false;
+}
+
+function saveGigDraft() {
+  const service = document.getElementById('ws-service')?.value || 'Untitled gig';
+  const acc = state.accounts.find(a => a.id === state.selectedWriteAccount);
+  const newGig = {
+    id: state.gigs.length + 1,
+    accountId: state.selectedWriteAccount,
+    title: state.gigDraft.step3 ? state.gigDraft.step3.substring(0,80) : 'I will ' + service.toLowerCase(),
+    status: 'Draft',
+    impressions: 0, clicks: 0, orders: 0, rating: 0,
+    slug: service.toLowerCase().replace(/[^a-z0-9 ]/g,'').trim(),
+    emoji: '📝',
+    draft: state.gigDraft,
+  };
+  state.gigs.push(newGig);
+  saveState();
+  renderDashGigs();
+  renderGigs();
+}
+
+// ─────────────────────────────────────────────
+// RESEARCH
+// ─────────────────────────────────────────────
+
+function setResearchPhase(n) {
+  state.currentResearchPhase = n;
+  document.querySelectorAll('.phase-step').forEach((el, i) => {
+    el.classList.toggle('active', i+1 === n);
+    el.classList.toggle('done', i+1 < n);
+  });
+  const p = RESEARCH_PHASES[n-1];
+  document.getElementById('research-phase-title').textContent = p.title;
+  document.getElementById('research-phase-sub').textContent = p.desc;
+  document.getElementById('research-run-btn').textContent = `Run phase ${n}`;
+  document.getElementById('research-output').style.display = 'none';
+}
+
+async function runResearch() {
+  const niche = document.getElementById('research-niche').value;
+  if (!niche.trim()) { alert('Please enter a niche first'); return; }
+  const btn = document.getElementById('research-run-btn');
+  btn.textContent = 'Researching...';
+  btn.disabled = true;
+
+  const acc = state.accounts.find(a => a.id === state.selectedResearchAccount);
+  const phasePrompts = {
+    1: `Act as a Fiverr Market Research Analyst. My chosen niche is: "${niche}". For account @${acc?.username} (${acc?.niche}).\n\nTask: Map the complete service landscape inside this niche on Fiverr.\n1. Top 5 broad service categories sellers offer\n2. For each category: 3-5 specific sub-services or micro-niches\n3. Flag HIGH competition (saturated) vs LOW competition (opportunity)\n4. Identify emerging/underserved service areas buyers request but few sellers offer\n\nBe specific and actionable. Format as a structured breakdown.`,
+    2: `I am analyzing competition for "${niche}" gigs on Fiverr for account @${acc?.username}.\n\n1. Study the top-ranking gigs: what keywords appear most, what promises do they lead with, what price range is common, what are ALL of them doing the same?\n2. Find the gap: what are NONE of them doing well?\n3. Structure your gap analysis as:\n   THE GAP: (2-3 sentences)\n   THE BUYER WHO NEEDS THIS:\n   THE UNIQUE ANGLE: "I help [WHO] achieve [WHAT] without [PAIN POINT]"\n   RISK LEVEL: Low/Medium/High and why`,
+    3: `Based on research for "${niche}" for account @${acc?.username}:\n\nGenerate 5-7 distinct gig ideas. Score each 1-10 on:\n1. BUYER DEMAND — active search volume\n2. COMPETITION LEVEL — 10 = very low competition (good)\n3. PRICE POTENTIAL — realistic earning per order\n4. DELIVERY DIFFICULTY — 10 = easy to deliver consistently\n5. GROWTH POTENTIAL — scale into upsells/retainers?\n\nCalculate weighted total. Rank ideas. Give TOP recommendation with clear reasoning. Then stress-test the winner: saturation, buyer objections, price ceiling, skill barrier, how a new seller breaks through.`,
+    4: `Build a complete Gig Research Brief for "${niche}" gigs, account @${acc?.username}:\n\nGIG TITLE DIRECTION: 3 possible title angles\nTARGET BUYER PROFILE: exact person, industry, goal, budget, fears\nTOP 5 BUYER PAIN POINTS\nTOP 5 RESULTS BUYERS WANT\nPRICING BENCHMARK: Basic/Standard/Premium ranges\nFIRST-PAGE ENTRY STRATEGY: 30-day plan for new seller\n\nThen: Use Prefix/Suffix method to generate 40+ keywords in 6 clusters:\n1. Root & Core Keywords\n2. Niche-Specific Verticals\n3. Platform & Tool Keywords\n4. Interaction & Intent Phrases\n5. Ancillary & Helper Keywords\n6. Aspirational & Expertise Tags\n\nEnd with master numbered list of all 40+ keywords.`,
+  };
+
+  const systemPrompt = `You are GigMaster AI, an expert Fiverr niche researcher with deep knowledge of Fiverr's 2026 algorithm, search patterns, and market trends. You understand SEO, buyer psychology, and competitive positioning on freelance platforms. Be specific, data-driven, and actionable.`;
+
+  try {
+    const result = await callClaude(systemPrompt, phasePrompts[state.currentResearchPhase]);
+    document.getElementById('research-result').textContent = result;
+    document.getElementById('research-output').style.display = 'block';
+  } catch(e) {
+    document.getElementById('research-result').textContent = 'Error: ' + e.message;
+    document.getElementById('research-output').style.display = 'block';
+  }
+  btn.textContent = `Run phase ${state.currentResearchPhase}`;
+  btn.disabled = false;
+}
+
+function proceedResearch() {
+  if (state.currentResearchPhase < 4) setResearchPhase(state.currentResearchPhase + 1);
+}
+
+// ─────────────────────────────────────────────
+// AI CHAT
+// ─────────────────────────────────────────────
+
+function buildAccountContext() {
+  return state.accounts.map(a => {
+    const gigs = state.gigs.filter(g => g.accountId === a.id);
+    return `Account: @${a.username} | Niche: ${a.niche} | Owner: ${a.owner} | Level: ${a.level} | Rating: ${a.rating} | Orders: ${a.orders} | Health: ${a.health}% | Gigs: ${gigs.length} | Notes: ${a.notes}. Gigs: ${gigs.map(g => `"${g.title}" (${g.status}, ${g.impressions} impressions, ${g.orders} orders, rating:${g.rating})`).join('; ')}`;
+  }).join('\n\n');
+}
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  input.style.height = 'auto';
+
+  addChatMsg(msg, 'user');
+  const typingEl = addTyping();
+
+  state.chatHistory.push({ role: 'user', content: msg });
+
+  const systemPrompt = `You are GigMaster AI, a specialist Fiverr strategist assistant. You have full knowledge of the user's Fiverr operation:\n\n${buildAccountContext()}\n\nFiverr algorithm facts you know:\n- URL slug is PERMANENT after first publish — initial title keywords can never change\n- Response time directly impacts search ranking — slow replies drop rankings fast\n- Vacation mode removes gigs from search index — warn users against it\n- Order completion rate is tracked — cancellations hurt ranking significantly\n- EXIF metadata in images is indexed by Fiverr's search crawler\n- CTR + conversion rate + response speed = the 3 core ranking signals\n- Promoted Gigs unlock at Level 1 — effective at $5/day to rebuild after bad reviews\n- New sellers must get first 3 reviews fast — use Buyer Requests and personal network\n\nBe direct, specific, and actionable. Reference actual account data in your answers. Short paragraphs, no waffle.`;
+
+  try {
+    const messages = state.chatHistory.slice(-10);
+    const result = await callClaude(systemPrompt, null, messages);
+    typingEl.remove();
+    addChatMsg(result, 'ai');
+    state.chatHistory.push({ role: 'assistant', content: result });
+  } catch(e) {
+    typingEl.remove();
+    addChatMsg('Sorry, there was an error connecting to the AI. Please try again.', 'ai');
+  }
+}
+
+function addChatMsg(text, role) {
+  const el = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  const formatted = text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+  div.innerHTML = `<div class="msg-avatar ${role}">${role === 'ai' ? 'G' : 'A'}</div><div class="msg-bubble">${formatted}</div>`;
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+  return div;
+}
+
+function addTyping() {
+  const el = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'msg ai';
+  div.innerHTML = `<div class="msg-avatar ai">G</div><div class="msg-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+  return div;
+}
+
+function useQuickPrompt(text) {
+  document.getElementById('chat-input').value = text;
+  sendChat();
+}
+
+function handleChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function clearChat() {
+  document.getElementById('chat-messages').innerHTML = '';
+  state.chatHistory = [];
+}
+
+// ─────────────────────────────────────────────
+// RECOMMENDER
+// ─────────────────────────────────────────────
+
+async function runRecommender() {
+  const service = document.getElementById('rec-service').value;
+  const buyer = document.getElementById('rec-buyer').value;
+  const price = document.getElementById('rec-price').value;
+  const notes = document.getElementById('rec-notes').value;
+
+  if (!service.trim()) { alert('Please describe the service'); return; }
+
+  const pane = document.getElementById('rec-result-pane');
+  pane.innerHTML = `<div class="card"><div style="color:var(--text3);font-size:13px">Analysing all accounts...</div><div class="progress-bar" style="margin-top:12px"><div class="progress-fill" style="width:0%" id="rec-progress"></div></div></div>`;
+
+  let w = 0;
+  const prog = setInterval(() => { w = Math.min(w + 8, 90); document.getElementById('rec-progress').style.width = w + '%'; }, 200);
+
+  const prompt = `A user wants to create a new Fiverr gig. Analyse ALL accounts and recommend the BEST one.\n\nService: ${service}\nTarget buyer: ${buyer}\nPrice range: ${price}\nNotes: ${notes}\n\nAll accounts:\n${buildAccountContext()}\n\nProvide:\n1. TOP RECOMMENDATION: which account and exactly why (niche alignment, current load, level, health score)\n2. CONFIDENCE LEVEL: High/Medium/Low with reasoning\n3. WHAT TO DO FIRST: 3 immediate action steps for this account before publishing\n4. RISK FLAG: anything about this account that could hurt this gig's performance\n5. ALTERNATIVE: second-best account and why it's not the top pick\n6. ACCOUNT TO AVOID: which account would be worst for this gig and why\n\nBe very specific. Reference actual data from the accounts.`;
+
+  try {
+    const result = await callClaude(`You are GigMaster AI, an expert Fiverr account strategist with full knowledge of all accounts. Be direct, specific, and reference actual account data.`, prompt);
+    clearInterval(prog);
+    const formatted = result.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>');
+    pane.innerHTML = `<div class="card"><div class="alert alert-success" style="margin-bottom:16px"><span class="alert-icon">✦</span> <span>Recommendation ready — based on your ${state.accounts.length} accounts</span></div><div style="font-size:13px;line-height:1.8;color:var(--text2)"><p>${formatted}</p></div></div>`;
+  } catch(e) {
+    clearInterval(prog);
+    pane.innerHTML = `<div class="card"><div class="alert alert-danger"><span class="alert-icon">⚠️</span> Error: ${e.message}</div></div>`;
+  }
+}
+
+// ─────────────────────────────────────────────
+// MODALS
+// ─────────────────────────────────────────────
+
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  if (id === 'addOrderModal') populateOrderModal();
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function addAccount() {
+  const username = document.getElementById('new-username').value.trim();
+  const display = document.getElementById('new-display').value.trim();
+  const niche = document.getElementById('new-niche').value.trim();
+  const owner = document.getElementById('new-owner').value.trim();
+  if (!username || !display || !niche) { alert('Please fill in username, display name, and niche'); return; }
+
+  const acc = {
+    id: state.accounts.length + 1,
+    username, display, niche, owner,
+    level: document.getElementById('new-level').value,
+    rating: parseFloat(document.getElementById('new-rating').value) || 0,
+    orders: 0, gigs: 0, health: 70,
+    notes: document.getElementById('new-notes').value,
+  };
+  state.accounts.push(acc);
+  saveState();
+  renderAll();
+  closeModal('addAccountModal');
+  document.getElementById('new-username').value = '';
+  document.getElementById('new-display').value = '';
+  document.getElementById('new-niche').value = '';
+  document.getElementById('new-owner').value = '';
+  document.getElementById('new-notes').value = '';
+  document.getElementById('new-rating').value = '';
+}
+
+// ─────────────────────────────────────────────
+// CLAUDE API
+// ─────────────────────────────────────────────
+
+// ─────────────────────────────────────────────
+// BACKEND CONFIG
+// ─────────────────────────────────────────────
+
+// After deploying to Render, replace this with your real URL
+// e.g. 'https://gigmaster-backend.onrender.com'
+const BACKEND_URL = localStorage.getItem('gm_backend_url') || '';
+
+function getBackendUrl() {
+  return localStorage.getItem('gm_backend_url') || '';
+}
+
+function saveBackendUrl(url) {
+  localStorage.setItem('gm_backend_url', url.trim().replace(/\/$/, ''));
+}
+
+function promptForBackendUrl() {
+  return new Promise((resolve) => {
+    openModal('apiKeyModal');
+    const existing = getBackendUrl();
+    if (existing) document.getElementById('api-key-input').value = existing;
+    document.getElementById('api-key-error').style.display = 'none';
+    document.getElementById('api-key-save-btn').onclick = () => {
+      const val = document.getElementById('api-key-input').value.trim();
+      if (!val.startsWith('http')) {
+        document.getElementById('api-key-error').style.display = 'block';
+        document.getElementById('api-key-error').textContent = 'Must be a valid URL starting with https://';
+        return;
+      }
+      saveBackendUrl(val);
+      renderApiKeyStatus();
+      closeModal('apiKeyModal');
+      resolve(val);
+    };
+  });
+}
+
+async function ensureBackend() {
+  let url = getBackendUrl();
+  if (!url) url = await promptForBackendUrl();
+  return url;
+}
+
+// ── Central AI call — routes through your Render backend ──
+async function callClaude(system, userMsg, history) {
+  let messages;
+  if (history) {
+    messages = history;
+  } else {
+    messages = [{ role: 'user', content: userMsg }];
+  }
+
+  const backendUrl = await ensureBackend();
+  if (!backendUrl) throw new Error('No backend URL set.');
+
+  const response = await fetch(`${backendUrl}/api/claude`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ system, messages, max_tokens: 1500 }),
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.error || `Backend error ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data.content.map(b => b.text || '').join('');
+}
+
+// ─────────────────────────────────────────────
+// UTILS
+// ─────────────────────────────────────────────
+
+function copyOutput(id) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const el = document.getElementById(id);
+    el.style.borderColor = 'var(--green)';
+    setTimeout(() => el.style.borderColor = '', 1500);
+  });
+}
+
+function resetAllData() {
+  if (!confirm('This will delete all your accounts, gigs, and feed data and restore the demo data. Are you sure?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  location.reload();
+}
+
+// ─────────────────────────────────────────────
+// ORDERS
+// ─────────────────────────────────────────────
+
+const STATUS_COLORS = {
+  'Pending':     { bg:'#2a2210', fg:'#f59e0b' },
+  'In Progress': { bg:'#0f2233', fg:'#3b82f6' },
+  'Delivered':   { bg:'#1a2e1a', fg:'#00d084' },
+  'Revision':    { bg:'#2a1a2e', fg:'#8b5cf6' },
+  'Completed':   { bg:'#1a2e1a', fg:'#4ade80' },
+  'Cancelled':   { bg:'#2e1a1a', fg:'#ef4444' },
+};
+
+function populateOrderAccountFilter() {
+  const sel = document.getElementById('order-account-filter');
+  if (!sel) return;
+  const current = sel.value;
+  sel.innerHTML = '<option value="all">All accounts</option>';
+  state.accounts.forEach(a => {
+    sel.innerHTML += `<option value="${a.id}">${a.username}</option>`;
+  });
+  sel.value = current || 'all';
+}
+
+function populateOrderModal() {
+  const accSel = document.getElementById('order-account-select');
+  accSel.innerHTML = '';
+  state.accounts.forEach(a => {
+    accSel.innerHTML += `<option value="${a.id}">${a.username}</option>`;
+  });
+  accSel.onchange = () => populateOrderGigSelect(parseInt(accSel.value));
+  populateOrderGigSelect(state.accounts[0]?.id);
+
+  // default deadline = today + 3 days
+  const d = new Date();
+  d.setDate(d.getDate() + 3);
+  document.getElementById('order-deadline').value = d.toISOString().split('T')[0];
+}
+
+function populateOrderGigSelect(accountId) {
+  const gigSel = document.getElementById('order-gig-select');
+  const gigs = state.gigs.filter(g => g.accountId === accountId);
+  if (gigs.length === 0) {
+    gigSel.innerHTML = '<option value="">No gigs for this account</option>';
+  } else {
+    gigSel.innerHTML = gigs.map(g => `<option value="${g.id}">${g.title.substring(0,55)}…</option>`).join('');
+  }
+}
+
+function addOrder() {
+  const accountId = parseInt(document.getElementById('order-account-select').value);
+  const gigId     = parseInt(document.getElementById('order-gig-select').value) || null;
+  const buyer     = document.getElementById('order-buyer').value.trim();
+  const amount    = parseFloat(document.getElementById('order-amount').value) || 0;
+  const deadline  = document.getElementById('order-deadline').value;
+  const status    = document.getElementById('order-status-select').value;
+  const notes     = document.getElementById('order-notes').value.trim();
+
+  if (!buyer) { alert('Please enter the buyer username.'); return; }
+  if (!deadline) { alert('Please set a deadline.'); return; }
+
+  const order = {
+    id: Date.now(),
+    accountId,
+    gigId,
+    buyer,
+    amount,
+    deadline,
+    status,
+    notes,
+    createdAt: new Date().toISOString(),
+  };
+
+  state.orders.push(order);
+  saveState();
+  renderOrders();
+  renderOrdersBadge();
+  renderDashStats();
+  closeModal('addOrderModal');
+
+  // reset form
+  document.getElementById('order-buyer').value = '';
+  document.getElementById('order-amount').value = '';
+  document.getElementById('order-notes').value = '';
+}
+
+function openEditOrder(id) {
+  const order = state.orders.find(o => o.id === id);
+  if (!order) return;
+  document.getElementById('edit-order-id').value = id;
+  document.getElementById('edit-order-status').value = order.status;
+  document.getElementById('edit-order-notes').value = order.notes || '';
+  openModal('editOrderModal');
+}
+
+function saveOrderEdit() {
+  const id = parseInt(document.getElementById('edit-order-id').value);
+  const order = state.orders.find(o => o.id === id);
+  if (!order) return;
+  order.status = document.getElementById('edit-order-status').value;
+  order.notes  = document.getElementById('edit-order-notes').value.trim();
+  saveState();
+  renderOrders();
+  renderOrdersBadge();
+  renderDashStats();
+  closeModal('editOrderModal');
+}
+
+function deleteOrder(id) {
+  if (!confirm('Delete this order?')) return;
+  state.orders = state.orders.filter(o => o.id !== id);
+  saveState();
+  renderOrders();
+  renderOrdersBadge();
+  renderDashStats();
+}
+
+function renderOrdersBadge() {
+  const active = state.orders.filter(o => o.status === 'In Progress' || o.status === 'Pending' || o.status === 'Revision').length;
+  const badge = document.getElementById('orders-badge');
+  if (badge) badge.textContent = active;
+}
+
+function renderOrders() {
+  populateOrderAccountFilter();
+  renderOrderStats();
+
+  const accountFilter = document.getElementById('order-account-filter')?.value || 'all';
+  const statusFilter  = document.getElementById('order-status-filter')?.value  || 'all';
+
+  let orders = [...state.orders].sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+  if (accountFilter !== 'all') orders = orders.filter(o => o.accountId === parseInt(accountFilter));
+  if (statusFilter  !== 'all') orders = orders.filter(o => o.status === statusFilter);
+
+  const container = document.getElementById('orders-list');
+  if (!container) return;
+
+  if (orders.length === 0) {
+    container.innerHTML = `<div class="empty-state">
+      <div class="empty-state-icon">📋</div>
+      <div class="empty-state-title">No orders found</div>
+      <div style="font-size:12px;margin-top:4px;color:var(--text3)">Click "+ Log order" to add one</div>
+    </div>`;
+    return;
+  }
+
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  container.innerHTML = `
+    <table style="width:100%;border-collapse:collapse">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border)">
+          <th style="text-align:left;padding:10px 12px;font-size:11px;color:var(--text3);font-weight:500">Buyer</th>
+          <th style="text-align:left;padding:10px 12px;font-size:11px;color:var(--text3);font-weight:500">Account</th>
+          <th style="text-align:left;padding:10px 12px;font-size:11px;color:var(--text3);font-weight:500">Gig</th>
+          <th style="text-align:left;padding:10px 12px;font-size:11px;color:var(--text3);font-weight:500">Value</th>
+          <th style="text-align:left;padding:10px 12px;font-size:11px;color:var(--text3);font-weight:500">Deadline</th>
+          <th style="text-align:left;padding:10px 12px;font-size:11px;color:var(--text3);font-weight:500">Status</th>
+          <th style="text-align:left;padding:10px 12px;font-size:11px;color:var(--text3);font-weight:500"></th>
+        </tr>
+      </thead>
+      <tbody>
+        ${orders.map(o => {
+          const acc  = state.accounts.find(a => a.id === o.accountId);
+          const gig  = state.gigs.find(g => g.id === o.gigId);
+          const sc   = STATUS_COLORS[o.status] || { bg:'#222', fg:'#aaa' };
+          const dl   = new Date(o.deadline); dl.setHours(0,0,0,0);
+          const diff = Math.round((dl - today) / 86400000);
+          const dlLabel = diff < 0 ? `<span style="color:var(--red)">${Math.abs(diff)}d overdue</span>`
+                        : diff === 0 ? `<span style="color:var(--amber)">Due today</span>`
+                        : diff === 1 ? `<span style="color:var(--amber)">Tomorrow</span>`
+                        : `<span style="color:var(--text2)">${o.deadline}</span>`;
+          return `<tr style="border-bottom:1px solid var(--border);transition:background .15s" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+            <td style="padding:12px;font-weight:500;color:var(--text)">${o.buyer}</td>
+            <td style="padding:12px;font-size:12px;color:var(--text2)">${acc?.username || '—'}</td>
+            <td style="padding:12px;font-size:12px;color:var(--text2);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${gig ? gig.title.substring(0,40)+'…' : '—'}</td>
+            <td style="padding:12px;font-weight:600;color:var(--green)">$${o.amount.toFixed(2)}</td>
+            <td style="padding:12px;font-size:12px">${dlLabel}</td>
+            <td style="padding:12px">
+              <span style="padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;background:${sc.bg};color:${sc.fg}">${o.status}</span>
+            </td>
+            <td style="padding:12px;white-space:nowrap">
+              <button data-onclick="openEditOrder(${o.id})" style="background:var(--surface2);border:none;color:var(--text2);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;margin-right:4px">Edit</button>
+              <button data-onclick="deleteOrder(${o.id})" style="background:var(--surface2);border:none;color:var(--red);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px">✕</button>
+            </td>
+          </tr>
+          ${o.notes ? `<tr style="border-bottom:1px solid var(--border)"><td colspan="7" style="padding:4px 12px 10px;font-size:11px;color:var(--text3)">📝 ${o.notes}</td></tr>` : ''}`;
+        }).join('')}
+      </tbody>
+    </table>`;
+}
+
+function renderOrderStats() {
+  const now = new Date(); now.setHours(0,0,0,0);
+  const thirtyAgo = new Date(); thirtyAgo.setDate(thirtyAgo.getDate() - 30);
+
+  const active    = state.orders.filter(o => ['Pending','In Progress','Revision'].includes(o.status));
+  const dueToday  = active.filter(o => { const d = new Date(o.deadline); d.setHours(0,0,0,0); return d <= now; });
+  const completed = state.orders.filter(o => o.status === 'Completed' && new Date(o.createdAt) >= thirtyAgo);
+  const cancelled = state.orders.filter(o => o.status === 'Cancelled');
+  const totalDone = state.orders.filter(o => ['Completed','Cancelled'].includes(o.status));
+  const revenue   = completed.reduce((s, o) => s + o.amount, 0);
+  const cancelRate = totalDone.length > 0 ? Math.round((cancelled.length / totalDone.length) * 100) : 0;
+
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  set('os-active',    active.length);
+  set('os-due',       dueToday.length);
+  set('os-due-delta', dueToday.length > 0 ? `${dueToday.length} need attention` : 'All clear');
+  set('os-completed', completed.length);
+  set('os-rev-delta', `$${revenue.toFixed(2)} earned`);
+  set('os-cancelled', cancelled.length);
+  set('os-cancel-rate', `${cancelRate}% cancel rate`);
+}
+
+// ─────────────────────────────────────────────
+// RESPONSE TIME TRACKER
+// ─────────────────────────────────────────────
+
+function populateReplyAccountSelect() {
+  ['reply-account-select','rev-account-select'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = state.accounts.map(a => `<option value="${a.id}">@${a.username}</option>`).join('');
+  });
+}
+
+function logReply() {
+  const accountId = parseInt(document.getElementById('reply-account-select').value);
+  const time = document.getElementById('reply-time').value;
+  const note = document.getElementById('reply-note').value;
+  if (!time) { alert('Please select a time'); return; }
+  if (!state.replies) state.replies = [];
+  state.replies.push({ id: Date.now(), accountId, time, note, createdAt: new Date().toISOString() });
+  saveState();
+  renderResponseTracker();
+  renderDashStats();
+  closeModal('logReplyModal');
+  document.getElementById('reply-note').value = '';
+}
+
+function openReplyModalFor(accountId) {
+  openModal('logReplyModal');
+  const sel = document.getElementById('reply-account-select');
+  if (sel) sel.value = accountId;
+  // reset time to now
+  const rt = document.getElementById('reply-time');
+  if (rt) { const n = new Date(); n.setMinutes(n.getMinutes() - n.getTimezoneOffset()); rt.value = n.toISOString().slice(0, 16); }
+}
+
+function getResponseLabel(hoursAgo) {
+  if (hoursAgo === null)    return { label: 'Never replied', cls: 'resp-bad', urgent: true };
+  if (hoursAgo < 1)         return { label: `${Math.round(hoursAgo * 60)}m ago`, cls: 'resp-good', urgent: false };
+  if (hoursAgo < 2)         return { label: `${Math.round(hoursAgo)}h ago`, cls: 'resp-good', urgent: false };
+  if (hoursAgo < 6)         return { label: `${Math.round(hoursAgo)}h ago`, cls: 'resp-warn', urgent: true };
+  if (hoursAgo < 24)        return { label: `${Math.round(hoursAgo)}h ago`, cls: 'resp-bad', urgent: true };
+  const days = Math.floor(hoursAgo / 24);
+  return { label: `${days}d ${Math.round(hoursAgo % 24)}h ago`, cls: 'resp-bad', urgent: true };
+}
+
+function deleteReply(replyId) {
+  state.replies = (state.replies || []).filter(r => r.id !== replyId);
+  saveState();
+  renderResponseTracker();
+  renderDashStats();
+}
+
+function renderResponseTracker() {
+  const el = document.getElementById('response-tracker');
+  if (!el) return;
+  const now = new Date();
+
+  // sort: worst (most urgent) first
+  const sorted = [...state.accounts].sort((a, b) => {
+    const getReplies = acc => (state.replies || []).filter(r => r.accountId === acc.id).sort((x,y) => new Date(y.time) - new Date(x.time));
+    const lastA = getReplies(a)[0];
+    const lastB = getReplies(b)[0];
+    const hoursA = lastA ? (now - new Date(lastA.time)) / 3600000 : 9999;
+    const hoursB = lastB ? (now - new Date(lastB.time)) / 3600000 : 9999;
+    return hoursB - hoursA;
+  });
+
+  el.innerHTML = sorted.map(a => {
+    const replies = (state.replies || [])
+      .filter(r => r.accountId === a.id)
+      .sort((x, y) => new Date(y.time) - new Date(x.time));
+    const last = replies[0];
+    const hoursAgo = last ? (now - new Date(last.time)) / 3600000 : null;
+    const { label, cls, urgent } = getResponseLabel(hoursAgo);
+    const c = getColor(a.id);
+
+    const recentReplies = replies.slice(0, 3);
+
+    return `<div style="display:flex;align-items:flex-start;gap:14px;padding:12px 0;border-bottom:1px solid var(--border)">
+      <div style="width:36px;height:36px;border-radius:9px;background:${c.bg};color:${c.fg};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0">${a.display[0]}</div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+          <span style="font-size:13px;font-weight:500">@${a.username}</span>
+          <span style="font-size:11px;color:var(--text3)">${a.niche}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+          <span class="resp-dot ${cls}"></span>
+          <span style="font-size:13px;font-weight:500;color:${cls === 'resp-good' ? 'var(--green)' : cls === 'resp-warn' ? 'var(--amber)' : 'var(--red)'}">${label}</span>
+          ${urgent ? `<span style="font-size:10px;background:var(--red-dim);color:var(--red);padding:2px 7px;border-radius:10px;font-weight:600">Reply now</span>` : `<span style="font-size:10px;background:var(--green-dim);color:var(--green);padding:2px 7px;border-radius:10px;font-weight:600">On track</span>`}
+        </div>
+        ${recentReplies.length > 0 ? `
+          <div style="display:flex;flex-direction:column;gap:2px">
+            ${recentReplies.map(r => {
+              const t = new Date(r.time);
+              const timeStr = t.toLocaleDateString('en-GB', { day:'numeric', month:'short' }) + ' ' + t.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+              return `<div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)">
+                <span>↩ ${timeStr}</span>
+                ${r.note ? `<span style="color:var(--text2)">· ${r.note.substring(0, 40)}${r.note.length > 40 ? '…' : ''}</span>` : ''}
+                <button data-onclick="deleteReply(${r.id})" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:11px;padding:0;margin-left:auto;opacity:0.5" title="Remove this reply log">✕</button>
+              </div>`;
+            }).join('')}
+          </div>` : `<div style="font-size:11px;color:var(--text3)">No replies logged yet</div>`}
+      </div>
+      <button data-onclick="openReplyModalFor(${a.id})" style="background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px;white-space:nowrap;flex-shrink:0">+ Log reply</button>
+    </div>`;
+  }).join('');
+}
+
+// ─────────────────────────────────────────────
+// REVIEWS
+// ─────────────────────────────────────────────
+
+let _starRating = 5;
+function setStarRating(val) {
+  _starRating = val;
+  document.getElementById('rev-rating').value = val;
+  document.querySelectorAll('.star-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i < val);
+  });
+}
+
+function populateRevGigSelect() {
+  const accountId = parseInt(document.getElementById('rev-account-select').value);
+  const sel = document.getElementById('rev-gig-select');
+  const gigs = state.gigs.filter(g => g.accountId === accountId);
+  sel.innerHTML = `<option value="">— select gig —</option>` + gigs.map(g => `<option value="${g.id}">${g.emoji} ${g.title.substring(0,50)}...</option>`).join('');
+}
+
+function addReview() {
+  const accountId = parseInt(document.getElementById('rev-account-select').value);
+  const gigId = parseInt(document.getElementById('rev-gig-select').value) || null;
+  const buyer = document.getElementById('rev-buyer').value.trim();
+  const rating = parseInt(document.getElementById('rev-rating').value) || 5;
+  const text = document.getElementById('rev-text').value.trim();
+  const notes = document.getElementById('rev-notes').value.trim();
+  if (!buyer) { alert('Enter a buyer username'); return; }
+  if (!text) { alert('Paste the review text'); return; }
+  if (!state.reviews) state.reviews = [];
+  state.reviews.unshift({ id: Date.now(), accountId, gigId, buyer, rating, text, notes, createdAt: new Date().toISOString() });
+  saveState();
+  renderReviews();
+  renderReviewsBadge();
+  closeModal('addReviewModal');
+  ['rev-buyer','rev-text','rev-notes'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+  setStarRating(5);
+}
+
+function renderReviewsBadge() {
+  const badge = document.getElementById('reviews-badge');
+  if (badge) badge.textContent = (state.reviews||[]).length;
+}
+
+function renderReviews() {
+  populateReviewAccountFilter();
+  const filter = document.getElementById('review-account-filter')?.value || 'all';
+  const reviews = filter === 'all' ? (state.reviews||[]) : (state.reviews||[]).filter(r => r.accountId == filter);
+  const total = reviews.length;
+  const avg = total ? (reviews.reduce((s,r)=>s+r.rating,0)/total).toFixed(1) : null;
+  const fiveStar = reviews.filter(r=>r.rating===5).length;
+  const low = reviews.filter(r=>r.rating<=3).length;
+  const set = (id,v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+  set('rv-total', total);
+  set('rv-avg', avg || '—');
+  set('rv-avg-delta', avg ? `Across ${total} review${total!==1?'s':''}` : 'No reviews yet');
+  set('rv-five', fiveStar);
+  set('rv-five-pct', total ? `${Math.round(fiveStar/total*100)}% of total` : '0% of total');
+  set('rv-low', low);
+  const el = document.getElementById('reviews-list');
+  if (!el) return;
+  if (!reviews.length) { el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">⭐</div><div class="empty-state-title">No reviews logged yet</div></div>`; return; }
+  el.innerHTML = reviews.map(r => {
+    const acc = state.accounts.find(a=>a.id===r.accountId);
+    const gig = state.gigs.find(g=>g.id===r.gigId);
+    const stars = '★'.repeat(r.rating) + '☆'.repeat(5-r.rating);
+    const date = new Date(r.createdAt).toLocaleDateString();
+    return `<div class="review-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="review-stars">${stars}</span>
+          <span style="font-size:12px;font-weight:500">${r.buyer}</span>
+          <span style="font-size:11px;color:var(--text3)">→ @${acc?.username||'?'}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:11px;color:var(--text3)">${date}</span>
+          <button data-onclick="deleteReview(${r.id})" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px">✕</button>
+        </div>
+      </div>
+      ${gig ? `<div style="font-size:11px;color:var(--text3);margin-bottom:4px">${gig.emoji} ${gig.title.substring(0,60)}...</div>` : ''}
+      <div class="review-text">"${r.text}"</div>
+      ${r.notes ? `<div class="review-note">📝 ${r.notes}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function populateReviewAccountFilter() {
+  const sel = document.getElementById('review-account-filter');
+  if (!sel) return;
+  sel.innerHTML = '<option value="all">All accounts</option>' + state.accounts.map(a=>`<option value="${a.id}">@${a.username}</option>`).join('');
+}
+
+function deleteReview(id) {
+  if (!confirm('Delete this review?')) return;
+  state.reviews = (state.reviews||[]).filter(r=>r.id!==id);
+  saveState(); renderReviews(); renderReviewsBadge(); renderDashStats();
+}
+
+async function analyseReviews() {
+  const reviews = state.reviews||[];
+  if (reviews.length < 2) { alert('Log at least 2 reviews first to get pattern analysis'); return; }
+  const el = document.getElementById('review-analysis-output');
+  el.innerHTML = `<div style="color:var(--text3);font-size:13px;padding:20px 0">Analysing ${reviews.length} reviews...</div>`;
+  const reviewData = reviews.map(r => {
+    const acc = state.accounts.find(a=>a.id===r.accountId);
+    const gig = state.gigs.find(g=>g.id===r.gigId);
+    return `Rating: ${r.rating}/5 | Account: @${acc?.username} | Gig: ${gig?.title||'unknown'} | Review: "${r.text}"`;
+  }).join('\n');
+  const prompt = `Analyse these Fiverr reviews and identify:\n1. WHAT CLIENTS LOVE: recurring positive themes (exact phrases/patterns)\n2. WHAT CLIENTS COMPLAIN ABOUT: recurring negative themes or low-rating patterns\n3. GIG-SPECIFIC INSIGHTS: any gig with notably better or worse reviews\n4. ACCOUNT HEALTH: which accounts have the strongest review profiles\n5. TOP RECOMMENDATION: one specific action to improve review quality\n\nReviews:\n${reviewData}`;
+  try {
+    const result = await callClaude('You are a Fiverr review analyst. Be specific and reference actual review content. Keep it concise and actionable.', prompt);
+    el.innerHTML = `<div style="font-size:13px;line-height:1.8;color:var(--text2)">${result.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--text)">$1</strong>').replace(/\n\n/g,'</p><p style="margin-bottom:10px">').replace(/\n/g,'<br>')}</div>`;
+  } catch(e) {
+    el.innerHTML = `<div class="alert alert-danger">Analysis failed: ${e.message}</div>`;
+  }
+}
+
+// ─────────────────────────────────────────────
+// EARNINGS
+// ─────────────────────────────────────────────
+
+function renderEarnings() {
+  const periodDays = document.getElementById('earn-period')?.value || '30';
+  const label = periodDays === 'all' ? 'All time' : `Last ${periodDays} days`;
+  const cutoff = periodDays === 'all' ? new Date(0) : new Date(Date.now() - periodDays * 86400000);
+
+  const completed = (state.orders||[]).filter(o => o.status === 'Completed' && new Date(o.createdAt) >= cutoff);
+  const active = (state.orders||[]).filter(o => ['Pending','In Progress','Revision'].includes(o.status));
+  const total = completed.reduce((s,o)=>s+o.amount,0);
+  const avg = completed.length ? total/completed.length : 0;
+  const pending = active.reduce((s,o)=>s+o.amount,0);
+
+  // best account
+  const byAccount = {};
+  completed.forEach(o => { byAccount[o.accountId] = (byAccount[o.accountId]||0) + o.amount; });
+  const bestAccId = Object.keys(byAccount).sort((a,b)=>byAccount[b]-byAccount[a])[0];
+  const bestAcc = bestAccId ? state.accounts.find(a=>a.id==bestAccId) : null;
+
+  const set = (id,v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+  set('earn-total', `$${total.toFixed(2)}`);
+  set('earn-period-label', label);
+  set('earn-avg', `$${avg.toFixed(2)}`);
+  set('earn-best', bestAcc ? `@${bestAcc.username}` : '—');
+  set('earn-best-amt', bestAcc ? `$${(byAccount[bestAccId]||0).toFixed(2)} earned` : '$0 earned');
+  set('earn-pending', `$${pending.toFixed(2)}`);
+
+  // by account bars
+  const maxAccVal = Math.max(...Object.values(byAccount), 1);
+  const accEl = document.getElementById('earn-by-account');
+  if (accEl) {
+    if (!Object.keys(byAccount).length) { accEl.innerHTML = `<div class="empty-state" style="padding:20px 0"><div class="empty-state-title">No completed orders yet</div></div>`; }
+    else accEl.innerHTML = state.accounts.map(a => {
+      const val = byAccount[a.id] || 0;
+      const c = getColor(a.id);
+      return `<div class="earn-bar-row">
+        <div class="earn-bar-label" style="color:${c.fg}">@${a.username}</div>
+        <div class="earn-bar-track"><div class="earn-bar-fill" style="width:${Math.round(val/maxAccVal*100)}%;background:${c.fg}"></div></div>
+        <div class="earn-bar-val" style="color:${c.fg}">$${val.toFixed(0)}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // by gig bars
+  const byGig = {};
+  completed.forEach(o => { if(o.gigId) byGig[o.gigId] = (byGig[o.gigId]||0) + o.amount; });
+  const maxGigVal = Math.max(...Object.values(byGig), 1);
+  const gigEl = document.getElementById('earn-by-gig');
+  if (gigEl) {
+    if (!Object.keys(byGig).length) { gigEl.innerHTML = `<div class="empty-state" style="padding:20px 0"><div class="empty-state-title">No gig-linked orders yet</div></div>`; }
+    else gigEl.innerHTML = Object.keys(byGig).sort((a,b)=>byGig[b]-byGig[a]).slice(0,8).map(gigId => {
+      const gig = state.gigs.find(g=>g.id==gigId);
+      const val = byGig[gigId];
+      return `<div class="earn-bar-row">
+        <div class="earn-bar-label">${gig?.emoji||'📄'} ${gig?.title?.substring(0,20)||'Unknown'}...</div>
+        <div class="earn-bar-track"><div class="earn-bar-fill" style="width:${Math.round(val/maxGigVal*100)}%"></div></div>
+        <div class="earn-bar-val">$${val.toFixed(0)}</div>
+      </div>`;
+    }).join('');
+  }
+}
+
+// ─────────────────────────────────────────────
+// GIG PUBLISH CHECKLIST
+// ─────────────────────────────────────────────
+
+const CHECKLIST_ITEMS = [
+  { section:'🔍 SEO foundations', items:[
+    { id:'slug', label:'URL slug keywords researched BEFORE publishing', hint:'First title = permanent URL. Research first, never change.' },
+    { id:'keywords', label:'40+ keywords mined (use Gig Research → Phase 4)', hint:'Run the 4-phase research system first.' },
+    { id:'title-slug', label:'URL slug written (78-80 chars, tool keywords only)', hint:'Keyword-dense, not readable, no hyphens.' },
+    { id:'title-display', label:'Display title written (78-80 chars, Service+Tools+UseCase)', hint:'What buyers see. Avoid: management, professional, design.' },
+  ]},
+  { section:'📝 Content', items:[
+    { id:'desc', label:'Gig description written (exactly 1100 chars)', hint:'AIDA framework, 5 sections, client-focused.' },
+    { id:'tags', label:'5 search tags added (1-3 words, buyer intent)', hint:'Long-tail, low competition, different from each other.' },
+    { id:'faqs', label:'10 FAQs written (each exactly 250 chars)', hint:'Absorbs remaining long-tail keywords.' },
+    { id:'requirements', label:'Gig requirements written (each under 70 chars)', hint:'Ask buyers before they order to prevent cancellations.' },
+  ]},
+  { section:'💰 Pricing', items:[
+    { id:'packages', label:'3 pricing packages set (Basic / Standard / Premium)', hint:'Basic under $50, deliverable in 30-60 mins.' },
+    { id:'contact-gate', label:'"Contact me before ordering" added to description', hint:'Prevents bad cancellations that hurt ranking.' },
+  ]},
+  { section:'🖼 Visual assets', items:[
+    { id:'thumbnail', label:'Gig thumbnail created (1280×720px)', hint:'No human face, keyword in filename, inject EXIF data.' },
+    { id:'exif', label:'Image EXIF metadata injected with target keywords', hint:'Fiverr crawls image metadata for search indexing.' },
+    { id:'gallery', label:'Gallery images uploaded (show process / results)', hint:'3 images minimum for trust and conversion.' },
+    { id:'video', label:'60-90s gig video created (optional but high impact)', hint:'Gigs with video get significantly higher CTR.' },
+    { id:'pdf', label:'PDF portfolio sample uploaded (keyword-optimised filename)', hint:'Demonstrates expertise, indexed by Fiverr search.' },
+  ]},
+  { section:'🚀 Launch', items:[
+    { id:'profile', label:'Fiverr profile photo, bio, and skills updated', hint:'Bio should match gig niche. Professional photo.' },
+    { id:'quick-replies', label:'Quick reply templates set in inbox', hint:'Slow responses hurt ranking fast. Set 2-3 templates.' },
+    { id:'published', label:'Gig published ✓', hint:'Go live!' },
+  ]},
+];
+
+function populateChecklistGigSelect() {
+  const sel = document.getElementById('checklist-gig-select');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">— Select a gig —</option>' +
+    state.gigs.map(g => {
+      const acc = state.accounts.find(a=>a.id===g.accountId);
+      return `<option value="${g.id}">${g.emoji} ${g.title.substring(0,45)}... (@${acc?.username})`;
+    }).join('');
+}
+
+function getChecklistKey(gigId) { return `checklist_${gigId}`; }
+
+function renderChecklist() {
+  const gigId = document.getElementById('checklist-gig-select')?.value;
+  const container = document.getElementById('checklist-container');
+  if (!gigId || !container) return;
+  const gig = state.gigs.find(g=>g.id==gigId);
+  if (!gig) return;
+  const acc = state.accounts.find(a=>a.id===gig.accountId);
+  const key = getChecklistKey(gigId);
+  if (!state.checklists) state.checklists = {};
+  const done = state.checklists[key] || {};
+  const total = CHECKLIST_ITEMS.reduce((s,s2)=>s+s2.items.length, 0);
+  const completed = Object.values(done).filter(Boolean).length;
+  const pct = Math.round(completed/total*100);
+  container.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div>
+        <div style="font-size:15px;font-weight:600">${gig.emoji} ${gig.title.substring(0,60)}...</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:2px">@${acc?.username} · ${completed}/${total} complete</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:22px;font-weight:700;color:${pct===100?'var(--green)':pct>50?'var(--amber)':'var(--red)'}">${pct}%</div>
+        <div style="font-size:11px;color:var(--text3)">ready to publish</div>
+      </div>
+    </div>
+    <div class="progress-bar" style="margin-bottom:20px"><div class="progress-fill" style="width:${pct}%"></div></div>
+    ${pct < 100 ? `<div class="alert alert-warn" style="margin-bottom:16px;font-size:12px"><span class="alert-icon">⚠️</span> Don't publish until 100% — especially the SEO Foundations section. The URL slug is permanent.</div>` : `<div class="alert alert-success" style="margin-bottom:16px;font-size:12px"><span class="alert-icon">✅</span> All items complete! This gig is ready to publish.</div>`}
+    ${CHECKLIST_ITEMS.map(section => `
+      <div class="checklist-section">
+        <div class="checklist-section-title">${section.section}</div>
+        ${section.items.map(item => `
+          <div class="checklist-item ${done[item.id]?'done':''}" data-onclick="toggleChecklistItem('${gigId}','${item.id}')">
+            <div class="checklist-cb">${done[item.id]?'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg>':''}</div>
+            <div>
+              <div class="checklist-label">${item.label}</div>
+              <div class="checklist-hint">${item.hint}</div>
+            </div>
+          </div>`).join('')}
+      </div>`).join('')}`;
+}
+
+function toggleChecklistItem(gigId, itemId) {
+  if (!state.checklists) state.checklists = {};
+  const key = getChecklistKey(gigId);
+  if (!state.checklists[key]) state.checklists[key] = {};
+  state.checklists[key][itemId] = !state.checklists[key][itemId];
+  saveState();
+  renderChecklist();
+}
+
+// ─────────────────────────────────────────────
+// UPDATED saveState & loadState to include new data
+// ─────────────────────────────────────────────
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      orders: state.orders,
+      accounts: state.accounts,
+      gigs: state.gigs,
+      feed: state.feed,
+      reviews: state.reviews || [],
+      replies: state.replies || [],
+      checklists: state.checklists || {},
+      selectedWriteAccount: state.selectedWriteAccount,
+      selectedResearchAccount: state.selectedResearchAccount,
+    }));
+  } catch(e) { console.warn('GigMaster: failed to save data.', e); }
+}
+
+
+
+function renderAll() {
+  renderDashAccounts();
+  renderDashStats();
+  renderAccountsGrid();
+  renderDashGigs();
+  renderGigs();
+  populateGigFilter();
+  renderFeed('dash-feed', 3);
+  renderFeed('feed-list', null);
+  renderWriteSteps();
+  renderWriteStep();
+  renderAccountChips('write-account-chips', state.selectedWriteAccount, 'selectWriteAccount');
+  renderAccountChips('research-account-chips', state.selectedResearchAccount, 'selectResearchAccount');
+  renderOrders();
+  renderOrdersBadge();
+  renderReviews();
+  renderReviewsBadge();
+  renderEarnings();
+  renderResponseTracker();
+  populateChecklistGigSelect();
+  populateReplyAccountSelect();
+  const rt = document.getElementById('reply-time');
+  if (rt) { const n = new Date(); n.setMinutes(n.getMinutes()-n.getTimezoneOffset()); rt.value = n.toISOString().slice(0,16); }
+  setStarRating(5);
+}
+
+
+// ─────────────────────────────────────────────
+// DELEGATED EVENT HANDLER (CSP-safe onclick)
+// ─────────────────────────────────────────────
+document.addEventListener('click', function(e) {
+  const el = e.target.closest('[data-onclick]');
+  if (!el) return;
+  const expr = el.getAttribute('data-onclick');
+  if (!expr) return;
+  try {
+    // Safe eval: only allow known function call patterns
+    const fnMatch = expr.match(/^([a-zA-Z_$][a-zA-Z0-9_$]*)\((.*)\)$/s);
+    if (fnMatch) {
+      const fnName = fnMatch[1];
+      const argsStr = fnMatch[2].trim();
+      const fn = window[fnName];
+      if (typeof fn === 'function') {
+        // Parse simple args: strings, numbers, booleans
+        let args = [];
+        if (argsStr) {
+          // Use JSON-like parsing for simple literals
+          try {
+            args = JSON.parse('[' + argsStr + ']');
+          } catch(pe) {
+            // Try evaluating string args wrapped in quotes
+            args = argsStr.split(',').map(a => {
+              a = a.trim();
+              if ((a.startsWith("'") && a.endsWith("'")) || (a.startsWith('"') && a.endsWith('"'))) return a.slice(1,-1);
+              if (!isNaN(a)) return Number(a);
+              if (a === 'true') return true;
+              if (a === 'false') return false;
+              return a;
+            });
+          }
+        }
+        fn(...args);
+      }
+    }
+  } catch(err) {
+    console.warn('GigMaster delegated click error:', expr, err);
+  }
+}, true);
+
+// ── Delegated change handler for select elements ──
+document.addEventListener('change', function(e) {
+  const el = e.target.closest('[data-onchange]');
+  if (!el) return;
+  const expr = el.getAttribute('data-onchange');
+  if (!expr) return;
+  try {
+    const fnMatch = expr.match(/^([a-zA-Z_$][a-zA-Z0-9_$]*)\((.*)\)$/);
+    const fn = window[fnMatch ? fnMatch[1] : expr];
+    if (typeof fn === 'function') fn();
+  } catch(err) {
+    console.warn('GigMaster delegated change error:', expr, err);
+  }
+}, true);
+
+// ─────────────────────────────────────────────
+// LIVE TICKER — refreshes response times every 60s
+// ─────────────────────────────────────────────
+setInterval(() => {
+  renderResponseTracker();
+  renderDashStats();
+}, 60000);
+
+// ── Settings button ──
+document.getElementById('settings-btn').addEventListener('click', () => {
+  const existing = getBackendUrl();
+  const input = document.getElementById('api-key-input');
+  if (existing) input.value = existing;
+  document.getElementById('api-key-error').style.display = 'none';
+  openModal('apiKeyModal');
+});
+
+// ── Show API key status indicator on load ──
+function renderApiKeyStatus() {
+  const btn = document.getElementById('settings-btn');
+  if (!btn) return;
+  const url = getBackendUrl();
+  if (url) {
+    btn.style.color = 'var(--green)';
+    btn.title = `Backend: ${url}`;
+  } else {
+    btn.style.color = 'var(--red)';
+    btn.title = 'No backend URL — AI features disabled. Click to add.';
+  }
+}
+
+try {
+  renderAll();
+  renderApiKeyStatus();
+} catch(e) {
+  console.error('GigMaster renderAll error:', e);
+}
+</script>
+<!-- Backend URL Modal -->
+<div class="modal-overlay" id="apiKeyModal">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">Backend URL</div>
+        <div class="card-sub" style="margin-top:4px">Your Render backend URL — required for all AI features</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Render backend URL</label>
+      <input class="form-input" id="api-key-input" type="text" placeholder="https://gigmaster-backend.onrender.com" autocomplete="off" />
+      <div id="api-key-error" style="display:none;color:var(--red);font-size:11px;margin-top:5px">Must be a valid URL starting with https://</div>
+    </div>
+    <div style="font-size:12px;color:var(--text3);line-height:1.6;margin-bottom:12px">
+      Deploy the backend from the <code style="background:var(--surface2);padding:2px 5px;border-radius:3px">gigmaster-backend</code> folder to Render, then paste your URL here. The URL looks like <code style="background:var(--surface2);padding:2px 5px;border-radius:3px">https://your-app-name.onrender.com</code>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn btn-ghost" data-onclick="closeModal('apiKeyModal')">Cancel</button>
+      <button class="btn btn-primary" id="api-key-save-btn">Save URL</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
